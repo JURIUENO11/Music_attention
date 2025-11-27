@@ -160,8 +160,6 @@ class Preprocessing_EEGMusic_dataset(Dataset):
         subject = (int(self.df_subset.iloc[n, 0]))
         song = int(self.df_subset.iloc[n, 1])
         
-        #print('window',window)
-
         eeg = eeg[:, int(int((window)*self.stride+(0.256*self.shifting_time))):int(int((window)*self.stride+self.window_size)+(0.256*self.shifting_time))]
        
         if isClip:
@@ -172,9 +170,6 @@ class Preprocessing_EEGMusic_dataset(Dataset):
             eeg_start = random.randint(int((self.audio_clip-3)/2*self.eeg_sample_rate), end)
             eeg = eeg[:, eeg_start: eeg_start + self.eeg_clip_length]
             
-           
-         
-
 
             for k, audio in enumerate(audio_list):
                 audio_start = int(eeg_start/self.eeg_sample_rate * self.audio_sample_rate)+int(
@@ -314,85 +309,6 @@ class Preprocessing_EEGMusic_dataset(Dataset):
     def _get_song_id(self, name):
         return re.sub(r'.wav$', '', name)
 
-        # name = re.sub(r'_[0-4]_track.m4a$', '', name)
-        # return re.sub(r'_[0-4]_track.wav$', '', name)
-
-
-# class Preprocessing_EEGMusic_Test_dataset(Preprocessing_EEGMusic_dataset):
-#     logger = get_logger("test_dataloader_debug")
-
-#     def set_test_data_length(self, test_data_length):
-#         self.test_data_length = test_data_length
-
-#     def getitem(self, n, isClip=True):
-#         eeg_path = self.df_subset.iloc[n, 4]
-#         with open(eeg_path, 'rb') as f:
-#             eeg = pickle.load(f)
-
-#         audio_path_list = [
-#             {"key": x-5, "value": self.df_subset.iloc[n, x]} for x in range(5, 9)]
-
-#         audio_list = []
-#         for audio_path in audio_path_list:
-#             with open(audio_path["value"], 'rb') as f:
-#                 audio, audio_sample_rate = torchaudio.load(f)
-
-#             audio_list.append({"key": audio_path["key"], "value": audio})
-
-#         subject = int(self.df_subset.iloc[n, 0])
-#         song_id = self._get_song_id(self.df_subset.iloc[n, 1])
-#         task = int(self.df_subset.iloc[n, 2])
-#         attention_score = int(self.df_subset.iloc[n, 3])
-    
-#         eeg = self._normalize(eeg, self.eeg_normalization, self.clamp_value)
-
-#         eeg_whole_length = (self.whole_audio_length *
-#                             self.eeg_sample_rate) + self.eeg_sample_rate
-#         eeg_data_length = eeg.shape[1]
-#         if eeg_data_length < eeg_whole_length:
-#             eeg_padding = (0, eeg_whole_length - eeg_data_length)
-#             eeg = F.pad(eeg, eeg_padding)
-#         else:
-#             eeg = eeg[:, :eeg_whole_length]
-
-#         padded_audio_list = []
-#         for k, audio in enumerate(audio_list):
-#             audio_whole_length = (
-#                 self.whole_audio_length * self.audio_sample_rate) + self.audio_sample_rate
-#             audio_data_length = audio["value"].shape[1]
-#             if audio_data_length < audio_whole_length:
-#                 audio_padding = (0, audio_whole_length - audio_data_length)
-#                 padded_audio = F.pad(audio["value"], audio_padding)
-#             else:
-#                 padded_audio = audio["value"][:, :audio_whole_length]
-
-#             padded_audio_list.append(
-#                 {"data": padded_audio, "length": audio_data_length})
-
-#         padded_audio0 = padded_audio_list[0]['data']
-#         padded_audio1 = padded_audio_list[1]['data']
-#         padded_audio2 = padded_audio_list[2]['data']
-#         padded_audio3 = padded_audio_list[3]['data']
-
-#         return eeg, padded_audio0, padded_audio1, padded_audio2, padded_audio3, task, attention_score, subject, song_id
-
-#     def __getitem__(self, n: int) -> Tuple[Tensor, Tensor, Tensor, Tensor, Tensor, int, int, int, str]:
-#         eeg, audio0, audio1, audio2, audio3, task, attention_score, subject, song_id = self.getitem(
-#             n)
-#         return eeg, audio0, audio1, audio2, audio3, task, attention_score, subject, song_id
-
-#     def _normalize(self, eeg_data, normalize_type, clamp_value=None):
-#         if normalize_type == "channel_mean":
-#             eeg_data = self.normalize_EEG(eeg_data)
-#         elif normalize_type == "all_mean":
-#             eeg_data = self.normalize_EEG_2(eeg_data)
-#         elif normalize_type == "constant_multiple":
-#             eeg_data = self.normalize_EEG_3(eeg_data)
-#         elif normalize_type == "MetaAI":
-#             eeg_data = self.normalize_EEG_4(
-#                 eeg_data, clamp_value)
-
-#         return eeg_data
 
 class Preprocessing_EEGMusic_Test_dataset(Preprocessing_EEGMusic_dataset):
     logger = get_logger("test_dataloader_debug")
@@ -423,18 +339,7 @@ class Preprocessing_EEGMusic_Test_dataset(Preprocessing_EEGMusic_dataset):
         song = int(self.df_subset_test.iloc[n, 1])
 
         eeg = eeg[:, int(int((window)*self.stride)+(0.256*self.shifting_time)):int(int((window)*self.stride+self.window_size+(0.256*self.shifting_time)))]
-        # if isClip:
-        #     all_eeg_length = eeg.size(1)
-        #     #eeg = eeg[:, int((window)*self.stride):int((window)*self.stride+self.window_size)]
-        #     eeg_start = 0
-
-        #     for k, audio in enumerate(audio_list):
-        #         audio_start = int(eeg_start/self.eeg_sample_rate * self.audio_sample_rate)+int(
-        #             (self.audio_clip-3)/2*self.audio_sample_rate)                
-        #         audio_list[k]["value"] = audio["value"][:, int(audio_start): int(
-        #             audio_start + self.audio_clip * self.audio_sample_rate)]
-        #         self.logger.debug(f"audio, {audio['value'].shape}")
-
+    
         if self.eeg_normalization == "channel_mean":
             eeg = self.normalize_EEG(eeg)
         elif self.eeg_normalization == "all_mean":
@@ -476,58 +381,6 @@ class Preprocessing_EEGMusic_Test_dataset(Preprocessing_EEGMusic_dataset):
         audio3 = audio_list[3]["value"]
 
         return eeg, audio0, audio1, audio2, audio3, task, attention_score, subject, song
-
-    # def getitem(self, n, isClip=True):
-    #     eeg_path = self.df_subset.iloc[n, 4]
-    #     with open(eeg_path, 'rb') as f:
-    #         eeg = pickle.load(f)
-
-    #     audio_path_list = [
-    #         {"key": x-5, "value": self.df_subset.iloc[n, x]} for x in range(5, 9)]
-
-    #     audio_list = []
-    #     for audio_path in audio_path_list:
-    #         with open(audio_path["value"], 'rb') as f:
-    #             audio, audio_sample_rate = torchaudio.load(f)
-
-    #         audio_list.append({"key": audio_path["key"], "value": audio})
-
-    #     subject = int(self.df_subset.iloc[n, 0])
-    #     song_id = self._get_song_id(self.df_subset.iloc[n, 1])
-    #     task = int(self.df_subset.iloc[n, 2])
-    #     attention_score = int(self.df_subset.iloc[n, 3])
-    
-    #     eeg = self._normalize(eeg, self.eeg_normalization, self.clamp_value)
-
-    #     eeg_whole_length = (self.whole_audio_length *
-    #                         self.eeg_sample_rate) + self.eeg_sample_rate
-    #     eeg_data_length = eeg.shape[1]
-    #     if eeg_data_length < eeg_whole_length:
-    #         eeg_padding = (0, eeg_whole_length - eeg_data_length)
-    #         eeg = F.pad(eeg, eeg_padding)
-    #     else:
-    #         eeg = eeg[:, :eeg_whole_length]
-
-    #     padded_audio_list = []
-    #     for k, audio in enumerate(audio_list):
-    #         audio_whole_length = (
-    #             self.whole_audio_length * self.audio_sample_rate) + self.audio_sample_rate
-    #         audio_data_length = audio["value"].shape[1]
-    #         if audio_data_length < audio_whole_length:
-    #             audio_padding = (0, audio_whole_length - audio_data_length)
-    #             padded_audio = F.pad(audio["value"], audio_padding)
-    #         else:
-    #             padded_audio = audio["value"][:, :audio_whole_length]
-
-    #         padded_audio_list.append(
-    #             {"data": padded_audio, "length": audio_data_length})
-
-    #     padded_audio0 = padded_audio_list[0]['data']
-    #     padded_audio1 = padded_audio_list[1]['data']
-    #     padded_audio2 = padded_audio_list[2]['data']
-    #     padded_audio3 = padded_audio_list[3]['data']
-
-    #     return eeg, padded_audio0, padded_audio1, padded_audio2, padded_audio3, task, attention_score, subject, song_id
 
     def __len__(self) -> int:
         return len(self.df_subset_test)
