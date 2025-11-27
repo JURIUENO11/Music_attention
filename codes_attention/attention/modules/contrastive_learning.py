@@ -130,44 +130,10 @@ class EEGContrastiveLearning(LightningModule):
         similarity_dict = self.criterion(
             z_eeg, z_v, z_d, z_b, z_o, task, attention_score,self.attention_values)
 
-        # ###########subjects evaluation###############
-        # ############ subject-song################
-        # # mask1 =  (song == self.song_id) & (subject == self.subject_id)
-        # mask1 = subject == self.subject_id
-        # if mask1.sum()>0:
-        #     z_eeg_sub = z_eeg[mask1]
-        #     z_v_sub = z_v[mask1]
-        #     z_d_sub = z_d[mask1]
-        #     z_b_sub = z_b[mask1]
-        #     z_o_sub = z_o[mask1]
-        #     task_sub = task[mask1]
-        #     attention_score_sub = attention_score[mask1]
-        #     sub_similarity = self.criterion(
-        #         z_eeg_sub, z_v_sub, z_d_sub, z_b_sub, z_o_sub, task_sub, attention_score_sub,self.attention_values)
-        # else:
-        #     print(f"No samples with subject # {self.subject_id}")
-        #     sub_similarity = None
-        # ##############################################
-        # ###########songs evaluation###############
-        # mask2 = song == self.song_id
-        # if mask2.sum()>0:
-        #     z_eeg_song = z_eeg[mask2]
-        #     z_v_song = z_v[mask2]
-        #     z_d_song = z_d[mask2]
-        #     z_b_song = z_b[mask2]
-        #     z_o_song = z_o[mask2]
-        #     task_song = task[mask2]
-        #     attention_score_song = attention_score[mask2]
-        #     song_similarity = self.criterion(
-        #         z_eeg_song, z_v_song, z_d_song, z_b_song, z_o_song, task_song, attention_score_song,self.attention_values)
-        # else:
-        #     print(f"No samples with song # {self.song_id}")
-        #     song_similarity = None
-        # ##############################################
       
         self.debug_logger.info(f"Loss/train:{similarity_dict['all']['loss']}")
         loss = similarity_dict["all"]["loss"]
-        
+    ############# Attention #####################
         # if similarity_dict["attention"]["loss"] is None:
         #     self.debug_logger.warning(f"Batch {batch_idx} has no valid loss, setting loss to 0.")
         #     loss = torch.tensor(0.0, requires_grad=True, device=self.device)
@@ -219,29 +185,6 @@ class EEGContrastiveLearning(LightningModule):
         evaluation_all = self.compute_evaluation_matrix(self.matrix_list_all)
         evaluation_attention = self.compute_evaluation_matrix(self.matrix_list_attention)
 
-# ################# subjects evaluation ###################
-#         if sub_similarity is not None:
-#             sub_matrix_all = sub_similarity["all"]["matrix_list"]
-#             sub_matrix_attention = sub_similarity["attention"]["matrix_list"]
-
-#             self.matrix_subject_all.append(sub_matrix_all)
-#             self.matrix_subject_attention.append(sub_matrix_attention)
-
-#             subject_evaluation_all = self.compute_evaluation_matrix(self.matrix_subject_all)
-#             subject_evaluation_attention = self.compute_evaluation_matrix(self.matrix_subject_attention)
-# #############################################################
-# ################# songs evaluation ###################
-#         if song_similarity is not None:
-#             song_matrix_all = song_similarity["all"]["matrix_list"]
-#             song_matrix_attention = song_similarity["attention"]["matrix_list"]
-
-#             self.matrix_song_all.append(song_matrix_all)
-#             self.matrix_song_attention.append(song_matrix_attention)
-
-#             song_evaluation_all = self.compute_evaluation_matrix(self.matrix_song_all)
-#             song_evaluation_attention = self.compute_evaluation_matrix(self.matrix_song_attention)
-# #############################################################
-
         print('Overall')
         print('大小関係', evaluation_all[0])
         print('大小4*1', evaluation_all[3])
@@ -263,207 +206,9 @@ class EEGContrastiveLearning(LightningModule):
         print('neg_4*1', evaluation_attention[5])
         print('pos*1', evaluation_attention[7])
         print('neg*1', evaluation_attention[8])
-# ################# subjects #######################
-#         if sub_similarity is not None:
-#             print('Subject/overall', self.subject_id)
-#             print('大小関係', subject_evaluation_all[0])
-#             print('大小4*1', subject_evaluation_all[3])
-#             print('大小*1', subject_evaluation_all[6])
-#             print('差分posグループ', subject_evaluation_all[1])
-#             print('差分negグループ', subject_evaluation_all[2])
-#             print('pos_4*1', subject_evaluation_all[4])
-#             print('neg_4*1', subject_evaluation_all[5])
-#             print('pos*1', subject_evaluation_all[7])
-#             print('pos*1', subject_evaluation_all[8])
-            
-#             print('Subject/attention', self.subject_id)
-#             print('大小関係', subject_evaluation_attention[0])
-#             print('大小4*1', subject_evaluation_attention[3])
-#             print('大小*1', subject_evaluation_attention[6])
-#             print('差分posグループ', subject_evaluation_attention[1])
-#             print('差分negグループ', subject_evaluation_attention[2])
-#             print('pos_4*1', subject_evaluation_attention[4])
-#             print('neg_4*1', subject_evaluation_attention[5])
-#             print('pos*1', subject_evaluation_attention[7])
-#             print('neg*1', subject_evaluation_attention[8])
-# ################# songs #######################      
-#         if song_similarity is not None:
-#             print('Song/overall', self.song_id)
-#             print('大小関係', song_evaluation_all[0])
-#             print('大小4*1', song_evaluation_all[3])
-#             print('大小*1', song_evaluation_all[6])
-#             print('差分posグループ', song_evaluation_all[1])
-#             print('差分negグループ', song_evaluation_all[2])
-#             print('pos_4*1', song_evaluation_all[4])
-#             print('neg_4*1', song_evaluation_all[5])
-#             print('pos*1', song_evaluation_all[7])
-#             print('pos*1', song_evaluation_all[8])
-            
-#             print('Song/attention', self.song_id)
-#             print('大小関係', song_evaluation_attention[0])
-#             print('大小4*1', song_evaluation_attention[3])
-#             print('大小*1', song_evaluation_attention[6])
-#             print('差分posグループ', song_evaluation_attention[1])
-#             print('差分negグループ', song_evaluation_attention[2])
-#             print('pos_4*1', song_evaluation_attention[4])
-#             print('neg_4*1', song_evaluation_attention[5])
-#             print('pos*1', song_evaluation_attention[7])
-#             print('neg*1', song_evaluation_attention[8])
+        
         return loss
 
-    # def compute_evaluation_matrix(self, all_lists):
-    #     if not all_lists or all(len(task) == 0 for group in all_lists for task in group):
-    #         print("all_lists is empty")
-    #         nan_matrix = torch.full((4, 4), float('nan'))  # 或按你需要的维度
-    #         nan_column = torch.full((4, 1), float('nan'))
-    #         return [nan_matrix, nan_matrix, nan_matrix, nan_column, nan_column, nan_column,
-    #                 float('nan'), float('nan'), float('nan')]
-    #     all_matrices = []
-    #     diff_matrices1 = []
-    #     diff_matrices2 = []
-    #     matrices_4 = []
-    #     matrices_diff_4_1 = []
-    #     matrices_diff_4_2 = []
-    #     total_number = 0
-    #     larger_number = 0
-    #     larger_list = []
-    #     total_list = []
-    #     ratio = 0
-    #     all_positive_diffs = []
-    #     all_negative_diffs = []
-
-    #     mcnemar_results=[]
-
-    #     for lists in all_lists:
-    #         num_tasks = len(lists)  # 任务数量
-    #         result_matrix = torch.full((num_tasks, num_tasks), float('nan'))  # 初始化 num_tasks x num_tasks 矩阵
-    #         diff_matrix1 = torch.full((num_tasks, num_tasks), float('nan')) 
-    #         diff_matrix2 = torch.full((num_tasks, num_tasks), float('nan')) 
-
-    #         matrix_4 = torch.full((num_tasks, 1), float('nan')) 
-    #         diff_4_1 = torch.full((num_tasks, 1), float('nan')) 
-    #         diff_4_2 = torch.full((num_tasks, 1), float('nan')) 
-
-    #         positive_diffs=[]
-    #         negative_diffs=[]
-    #         for task_idx, task_list in enumerate(lists):
-    #             if len(task_list) == 0:  # 如果当前 task_list 为空，则整行设为 NaN
-    #                 result_matrix[task_idx, :] = float('nan')
-    #                 diff_matrix1[task_idx, :] = float('nan')
-    #                 diff_matrix2[task_idx, :] = float('nan')
-    #                 matrix_4[task_idx] = float('nan')
-    #                 diff_4_1[task_idx] = float('nan')
-    #                 diff_4_2[task_idx] = float('nan')
-    #                 continue  # 跳过后续计算
-
-    #             task_tensor = torch.tensor(task_list)  # 转换为 tensor
-    #             num_rows, num_cols = task_tensor.shape
-
-    #             pos_values = task_tensor[:, task_idx]  # 该列作为 positive pair
-
-    #             for neg_idx in range(num_tasks):  # 遍历负样本列
-    #                 if task_idx == neg_idx:
-    #                     continue  # 跳过主对角线
-
-    #                 neg_values = task_tensor[:, neg_idx]  # 当前列作为 negative pair
-
-    #                 # 计算 pos_values 在同一行比 neg_values 大的次数
-    #                 larger_count = (pos_values > neg_values).sum().item()
-    #                 total_count = len(pos_values)  # 计算总行数
-
-    #                 differences = pos_values - neg_values
-    #                 pos_group = differences[differences>0].mean().item()
-    #                 neg_group = differences[differences<0].mean().item()
-
-    #                 result_matrix[task_idx, neg_idx] = larger_count / total_count  # 计算比例
-    #                 diff_matrix1[task_idx, neg_idx] = pos_group
-    #                 diff_matrix2[task_idx, neg_idx] = neg_group
-
-               
-    #         ################# 1*4 matirx calculation ######################
-    #             max_values, _ = task_tensor[:, [i for i in range(num_tasks) if i != task_idx]].max(dim=1) 
-
-    #             # 计算 pos_values 在同一行比 neg_values 大的次数
-    #             larger = (pos_values > max_values).sum().item()
-    #             total = len(pos_values)  # 计算总行数
-    #             total_number += total
-    #             larger_number += larger
-
-    #             flags = (pos_values > max_values).int()
-    #             mcnemar_results.append(flags)
-                
-
-    #             diffs = pos_values - max_values
-    #             pos = diffs[diffs>0].mean().item()
-    #             neg = diffs[diffs<0].mean().item()
-    #             if diffs[diffs>0].numel() > 0:  # 只有有正值才追加
-    #                 positive_diffs.append(diffs[diffs>0])
-    #             if diffs[diffs<0].numel() > 0:  # 只有有正值才追加
-    #                 negative_diffs.append(diffs[diffs<0])
-
-    #             matrix_4[task_idx] = larger / total  # 计算比例
-    #             diff_4_1[task_idx] = pos
-    #             diff_4_2[task_idx] = neg
-                
-            
-    #         all_matrices.append(result_matrix)
-    #         diff_matrices1.append(diff_matrix1)
-    #         diff_matrices2.append(diff_matrix2)
-    #         matrices_4.append(matrix_4)
-    #         matrices_diff_4_1.append(diff_4_1)
-    #         matrices_diff_4_2.append(diff_4_2)
-    #         # larger_list.append(larger_number)
-    #         # total_list.append(total_number)
-    #         all_positive_diffs.append(positive_diffs)
-    #         all_negative_diffs.append(negative_diffs)
-    #     # ########### Mcnemar save #############
-    #     # #print(mcnemar_results)
-    #     # flattened = []
-    #     # for t in mcnemar_results:
-    #     #     flattened.extend(t.cpu().numpy().tolist())
-    #     # df = pd.DataFrame(flattened)
-    #     # df.to_excel("/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/clmr/sub3_best_attn.xlsx", index=False, header=False)
-    #     # ######################################################
-    #     ratio_matrix = self.average_matrix(all_matrices)
-    #     pos_diff = self.average_matrix(diff_matrices1)
-    #     neg_diff = self.average_matrix(diff_matrices2)
-    #     ratio_4 = self.average_matrix(matrices_4)
-    #     pos_diff_4 = self.average_matrix(matrices_diff_4_1)
-    #     neg_diff_4 = self.average_matrix(matrices_diff_4_2)
-    #     # if torch.tensor(total_list).float().sum()>0:
-    #     #     ratio = torch.tensor(larger_list).float().sum().item()/torch.tensor(total_list).float().sum().item()
-    #     ratio = (larger_number / total_number) if total_number > 0 else float('nan')
-    #     flat_positive_diffs = [t for sublist in all_positive_diffs for t in sublist]
-    #     flat_negative_diffs = [t for sublist in all_negative_diffs for t in sublist]
-    #     if flat_positive_diffs:
-    #         positive_difference = torch.cat(flat_positive_diffs).mean().item()
-    #     else:
-    #         positive_difference = float('nan')
-
-    #     if flat_negative_diffs:
-    #         negative_difference = torch.cat(flat_negative_diffs).mean().item()
-    #     else:
-    #         negative_difference = float('nan')
-
-    #     # print(flat_positive_diffs)
-    #     # print(flat_negative_diffs)
-    #     # print(larger_list)
-    #     # print(total_list)
-    #     # print('all',all_matrices)
-    #     # print('final',final_matrix)
-    #     return [ratio_matrix, pos_diff, neg_diff, ratio_4, pos_diff_4, neg_diff_4, ratio, positive_difference, negative_difference]
-
-    # def average_matrix(self, matrix_list):
-    #     # 计算所有 result_matrix 的均值，忽略 NaN
-    #     #final_matrix = torch.nanmean(torch.stack(all_matrices), dim=0)
-        
-    #     stacked_matrices = torch.stack(matrix_list)
-    #     mask = torch.isnan(stacked_matrices)  # 找出所有 NaN
-    #     stacked_matrices[mask] = 0  # 临时填充 NaN 为 0
-    #     count_non_nan = (~mask).sum(dim=0)  # 计算非 NaN 的个数
-    #     final_matrix = stacked_matrices.sum(dim=0) / count_non_nan  # 计算均值
-    #     final_matrix[count_non_nan == 0] = float('nan')
-    #     return final_matrix
 
     def compute_evaluation_matrix(self, all_lists):
         if not all_lists or all(len(task) == 0 for group in all_lists for task in group):
@@ -503,8 +248,6 @@ class EEGContrastiveLearning(LightningModule):
         global_pos_cnt = 0
         global_neg_sum = 0
         global_neg_cnt = 0
-
-        mcnemar_results = []
 
         for lists in all_lists:
             for task_idx, task_list in enumerate(lists):
@@ -563,14 +306,6 @@ class EEGContrastiveLearning(LightningModule):
 
                 flags = (pos_values > max_values).int()
                 mcnemar_results.append(flags)
-            # ########### Mcnemar save #############
-            # #print(mcnemar_results)
-            # flattened = []
-            # for t in mcnemar_results:
-            #     flattened.extend(t.cpu().numpy().tolist())
-            # df = pd.DataFrame(flattened)
-            # df.to_excel("/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/clmr/sub2_bad_all.xlsx", index=False, header=False)
-            # ######################################################
 
         ratio_matrix = ratio_num_44/ratio_den_44  
         pos_diff     = pos_sum_44/pos_cnt_44    
@@ -589,73 +324,6 @@ class EEGContrastiveLearning(LightningModule):
                 ratio, positive_difference, negative_difference]
 
     def validation_epoch_end(self, outputs):
-        mean_loss = torch.tensor(outputs).mean()
-        self.log("Valid/loss", mean_loss, prog_bar=True, sync_dist=True)
-        file_path1 = "/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/similarity/all_1.xlsx"
-        file_path2 = "/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/similarity/all_2.xlsx"
-        file_path_c1 = "/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/similarity/attention_1.xlsx"
-        file_path_c2 = "/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/similarity/attention_2.xlsx"
-        column_name=["vocal", "drum", "bass", "others", "positive_av", "negative"]
-        if self.key % 2==0:
-            if os.path.exists(file_path1):
-            # 读取现有数据
-                df_existing = pd.read_excel(file_path1)
-            else:
-            # 创建一个空的DataFrame
-                df_existing = pd.DataFrame(columns=column_name)
-            if os.path.exists(file_path_c1):
-            # 读取现有数据
-                df_existing_c = pd.read_excel(file_path_c1)
-            else:
-            # 创建一个空的DataFrame
-                df_existing_c = pd.DataFrame(columns=column_name)
-
-            # 创建一个包含平均值的DataFrame
-            df_all = pd.DataFrame(self.batch_accuracies, columns=column_name)
-            df_attention = pd.DataFrame(self.batch_accuracies_c, columns=column_name)
-            df_new = df_all.mean(axis=0, skipna=True).to_frame().T
-            df_new_c = df_attention.mean(axis=0, skipna=True).to_frame().T
-
-            # 将新数据追加到现有数据中
-            df_combined = pd.concat([df_existing, df_new], ignore_index=True)
-            df_combined_c = pd.concat([df_existing_c, df_new_c], ignore_index=True)
-            # 保存更新后的DataFrame到Excel
-            df_combined.to_excel(file_path2, index=False)
-            df_combined_c.to_excel(file_path_c2, index=False)
-        else:
-            if os.path.exists(file_path2):
-            # 读取现有数据
-                df_existing = pd.read_excel(file_path2)
-            else:
-            # 创建一个空的DataFrame
-                df_existing = pd.DataFrame(columns=column_name)
-            if os.path.exists(file_path_c2):
-            # 读取现有数据
-                df_existing_c = pd.read_excel(file_path_c2)
-            else:
-            # 创建一个空的DataFrame
-                df_existing_c = pd.DataFrame(columns=column_name)
-
-            # 创建一个包含平均值的DataFrame
-            df_all = pd.DataFrame(self.batch_accuracies, columns=column_name)
-            df_attention = pd.DataFrame(self.batch_accuracies_c, columns=column_name)
-            df_new = df_all.mean(axis=0, skipna=True).to_frame().T
-            df_new_c = df_attention.mean(axis=0, skipna=True).to_frame().T
-
-            # 将新数据追加到现有数据中
-            df_combined = pd.concat([df_existing, df_new], ignore_index=True)
-            df_combined_c = pd.concat([df_existing_c, df_new_c], ignore_index=True)
-            # 保存更新后的DataFrame到Excel
-            df_combined.to_excel(file_path1, index=False)
-            df_combined_c.to_excel(file_path_c1, index=False)
-
-        # **覆盖保存到 `.npy` 文件**
-        np.save("/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/similarity/matrix_list_all.npy", self.matrix_list_all,allow_pickle=True)
-        np.save("/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/similarity/matrix_list_attention.npy", self.matrix_list_attention, allow_pickle=True)
-
-        # 重置batch_accuracies以供下次验证周期使用
-        # print('All_excel', self.batch_accuracies)
-        # print('Attention_excel', self.batch_accuracies_c)
 
         self.batch_accuracies = []
         self.batch_accuracies_c = []
@@ -667,212 +335,8 @@ class EEGContrastiveLearning(LightningModule):
         self.matrix_song_attention = []
         self.key+=1
 
-        #self.save_checkpoint(f"/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/CLMR_20250317.pth")
 
     def test_step(self, batch, batch_idx):
-    #     # clip loss
-    #     eeg, m_v, m_d, m_b, m_o = batch[:5]
-    #     task = batch[5]
-    #     attention_score = batch[6]
-    #     subject = batch[7]
-    #     song = batch[8]
-        
-    #     eeg_start = 0
-    #     eeg_length = eeg.shape[2]
-    #     print(f"eeg_length: {eeg_length}")
-    #     time = 0
-
-    #     while (eeg_length > eeg_start + self.test_data_length):
-
-    #         excerpt_eeg = self._get_eeg(eeg, eeg_start)
-    #         m_v_data = self._get_audio(m_v, eeg_start)
-    #         m_d_data = self._get_audio(m_d, eeg_start)
-    #         m_b_data = self._get_audio(m_b, eeg_start)
-    #         m_o_data = self._get_audio(m_o, eeg_start)
-
-    #         y_eeg, y_v, y_d, y_b, y_o, z_eeg, z_v, z_d, z_b, z_o = self.forward(
-    #             excerpt_eeg, m_v_data, m_d_data, m_b_data, m_o_data)
-            
-    #         if self.hparams.detach_z_c:
-    #             z_v = z_v.detach()
-    #             z_d = z_d.detach()
-    #             z_b = z_b.detach()
-    #             z_o = z_o.detach()
-    #         similarity_dict = self.criterion(
-    #             z_eeg, z_v, z_d, z_b, z_o, task, attention_score,self.attention_values)
-
-    #         ###########subjects evaluation###############
-    #         ############ subject-song################
-    #         # mask1 =  (song == self.song_id) & (subject == self.subject_id)
-    #         mask1 = subject == self.subject_id
-    #         if mask1.sum()>0:
-    #             z_eeg_sub = z_eeg[mask1]
-    #             z_v_sub = z_v[mask1]
-    #             z_d_sub = z_d[mask1]
-    #             z_b_sub = z_b[mask1]
-    #             z_o_sub = z_o[mask1]
-    #             task_sub = task[mask1]
-    #             attention_score_sub = attention_score[mask1]
-    #             sub_similarity = self.criterion(
-    #                 z_eeg_sub, z_v_sub, z_d_sub, z_b_sub, z_o_sub, task_sub, attention_score_sub,self.attention_values)
-    #         else:
-    #             print(f"No samples with subject # {self.subject_id}")
-    #             sub_similarity = None
-    #         ##############################################
-    #         ###########songs evaluation###############
-    #         mask2 = song == self.song_id
-    #         print('subject',subject)
-    #         print('song',song)
-    #         if mask2.sum()>0:
-    #             z_eeg_song = z_eeg[mask2]
-    #             z_v_song = z_v[mask2]
-    #             z_d_song = z_d[mask2]
-    #             z_b_song = z_b[mask2]
-    #             z_o_song = z_o[mask2]
-    #             task_song = task[mask2]
-    #             attention_score_song = attention_score[mask2]
-    #             song_similarity = self.criterion(
-    #                 z_eeg_song, z_v_song, z_d_song, z_b_song, z_o_song, task_song, attention_score_song,self.attention_values)
-    #         else:
-    #             print(f"No samples with song # {self.song_id}")
-    #             song_similarity = None
-    #         ##############################################
-
-    #         self.debug_logger.info(
-    #             f"Outputs for positive pairs:{similarity_dict['all']['positive_list']}")
-    #         self.debug_logger.info(
-    #             f"Outputs for negative pairs:{similarity_dict['all']['negative_av']}")
-    #         self.debug_logger.info(
-    #             f"Loss/valid_attention:{similarity_dict['attention']['loss']}")
-
-    #         positive_list = similarity_dict["all"]["positive_list"]
-    #         positive_task0 = self._get_tensor_value(positive_list[0])
-    #         positive_task1 = self._get_tensor_value(positive_list[1])
-    #         positive_task2 = self._get_tensor_value(positive_list[2])
-    #         positive_task3 = self._get_tensor_value(positive_list[3])
-
-    #         pos_list = [x for x in positive_list if x is not None]
-    #         if len(pos_list) > 0:
-    #             positive_average = sum(pos_list) / len(pos_list)
-
-    #         self.batch_accuracies.append([positive_task0, positive_task1, positive_task2,
-    #                                     positive_task3, self._get_tensor_value(positive_average), self._get_tensor_value(similarity_dict["all"]["negative_av"])])
-
-
-    #         filtered_list = similarity_dict["attention"]["positive_list"]
-    #         filtered_task0 = self._get_tensor_value(filtered_list[0])
-    #         filtered_task1 = self._get_tensor_value(filtered_list[1])
-    #         filtered_task2 = self._get_tensor_value(filtered_list[2])
-    #         filtered_task3 = self._get_tensor_value(filtered_list[3])
-
-    #         fil_list = [x for x in filtered_list if x is not None]
-    #         if len(fil_list) > 0:
-    #             filtered_average = sum(fil_list) / len(fil_list)
-
-    #         self.batch_accuracies_c.append([filtered_task0, filtered_task1, filtered_task2,
-    #                                     filtered_task3, self._get_tensor_value(filtered_average), self._get_tensor_value(similarity_dict["attention"]["negative_av"])])
-
-    #         matrix_all = similarity_dict["all"]["matrix_list"]
-    #         matrix_attention = similarity_dict["attention"]["matrix_list"]
-
-    #         self.matrix_list_all.append(matrix_all)
-    #         self.matrix_list_attention.append(matrix_attention)
-            
-    #         evaluation_all = self.compute_evaluation_matrix(self.matrix_list_all)
-    #         evaluation_attention = self.compute_evaluation_matrix(self.matrix_list_attention)
-
-    # ################# subjects evaluation ###################
-    #         if sub_similarity is not None:
-    #             sub_matrix_all = sub_similarity["all"]["matrix_list"]
-    #             sub_matrix_attention = sub_similarity["attention"]["matrix_list"]
-
-    #             self.matrix_subject_all.append(sub_matrix_all)
-    #             self.matrix_subject_attention.append(sub_matrix_attention)
-
-    #             subject_evaluation_all = self.compute_evaluation_matrix(self.matrix_subject_all)
-    #             subject_evaluation_attention = self.compute_evaluation_matrix(self.matrix_subject_attention)
-    # #############################################################
-    # ################# songs evaluation ###################
-    #         if song_similarity is not None:
-    #             song_matrix_all = song_similarity["all"]["matrix_list"]
-    #             song_matrix_attention = song_similarity["attention"]["matrix_list"]
-
-    #             self.matrix_song_all.append(song_matrix_all)
-    #             self.matrix_song_attention.append(song_matrix_attention)
-
-    #             song_evaluation_all = self.compute_evaluation_matrix(self.matrix_song_all)
-    #             song_evaluation_attention = self.compute_evaluation_matrix(self.matrix_song_attention)
-    # #############################################################
-    #         eeg_start = eeg_start + 256
-    #         time += 1
-            
-    #         print('Overall')
-    #         print('大小関係', evaluation_all[0])
-    #         print('大小4*1', evaluation_all[3])
-    #         print('大小*1', evaluation_all[6])
-    #         print('差分posグループ', evaluation_all[1])
-    #         print('差分negグループ', evaluation_all[2])
-    #         print('pos_4*1', evaluation_all[4])
-    #         print('neg_4*1', evaluation_all[5])
-    #         print('pos*1', evaluation_all[7])
-    #         print('pos*1', evaluation_all[8])
-            
-    #         print('Attention')
-    #         print('大小関係', evaluation_attention[0])
-    #         print('大小4*1', evaluation_attention[3])
-    #         print('大小*1', evaluation_attention[6])
-    #         print('差分posグループ', evaluation_attention[1])
-    #         print('差分negグループ', evaluation_attention[2])
-    #         print('pos_4*1', evaluation_attention[4])
-    #         print('neg_4*1', evaluation_attention[5])
-    #         print('pos*1', evaluation_attention[7])
-    #         print('neg*1', evaluation_attention[8])
-    # ################# subjects #######################
-    #         if sub_similarity is not None:
-    #             print('Subject/overall', self.subject_id)
-    #             print('大小関係', subject_evaluation_all[0])
-    #             print('大小4*1', subject_evaluation_all[3])
-    #             print('大小*1', subject_evaluation_all[6])
-    #             print('差分posグループ', subject_evaluation_all[1])
-    #             print('差分negグループ', subject_evaluation_all[2])
-    #             print('pos_4*1', subject_evaluation_all[4])
-    #             print('neg_4*1', subject_evaluation_all[5])
-    #             print('pos*1', subject_evaluation_all[7])
-    #             print('pos*1', subject_evaluation_all[8])
-                
-    #             print('Subject/attention', self.subject_id)
-    #             print('大小関係', subject_evaluation_attention[0])
-    #             print('大小4*1', subject_evaluation_attention[3])
-    #             print('大小*1', subject_evaluation_attention[6])
-    #             print('差分posグループ', subject_evaluation_attention[1])
-    #             print('差分negグループ', subject_evaluation_attention[2])
-    #             print('pos_4*1', subject_evaluation_attention[4])
-    #             print('neg_4*1', subject_evaluation_attention[5])
-    #             print('pos*1', subject_evaluation_attention[7])
-    #             print('neg*1', subject_evaluation_attention[8])
-    # ################# songs #######################      
-    #         if song_similarity is not None:
-    #             print('Song/overall', self.song_id)
-    #             print('大小関係', song_evaluation_all[0])
-    #             print('大小4*1', song_evaluation_all[3])
-    #             print('大小*1', song_evaluation_all[6])
-    #             print('差分posグループ', song_evaluation_all[1])
-    #             print('差分negグループ', song_evaluation_all[2])
-    #             print('pos_4*1', song_evaluation_all[4])
-    #             print('neg_4*1', song_evaluation_all[5])
-    #             print('pos*1', song_evaluation_all[7])
-    #             print('pos*1', song_evaluation_all[8])
-                
-    #             print('Song/attention', self.song_id)
-    #             print('大小関係', song_evaluation_attention[0])
-    #             print('大小4*1', song_evaluation_attention[3])
-    #             print('大小*1', song_evaluation_attention[6])
-    #             print('差分posグループ', song_evaluation_attention[1])
-    #             print('差分negグループ', song_evaluation_attention[2])
-    #             print('pos_4*1', song_evaluation_attention[4])
-    #             print('neg_4*1', song_evaluation_attention[5])
-    #             print('pos*1', song_evaluation_attention[7])
-    #             print('neg*1', song_evaluation_attention[8])
     # clip loss
         eeg, m_v, m_d, m_b, m_o = batch[:5]
         task = batch[5]
@@ -890,41 +354,6 @@ class EEGContrastiveLearning(LightningModule):
             z_o = z_o.detach()
         similarity_dict = self.criterion(
             z_eeg, z_v, z_d, z_b, z_o, task, attention_score,self.attention_values)
-
-        ###########subjects evaluation###############
-        ############ subject-song################
-        mask1 =  (song == self.song_id) & (subject == self.subject_id)
-        #mask1 = subject == self.subject_id
-        if mask1.sum()>0:
-            z_eeg_sub = z_eeg[mask1]
-            z_v_sub = z_v[mask1]
-            z_d_sub = z_d[mask1]
-            z_b_sub = z_b[mask1]
-            z_o_sub = z_o[mask1]
-            task_sub = task[mask1]
-            attention_score_sub = attention_score[mask1]
-            sub_similarity = self.criterion(
-                z_eeg_sub, z_v_sub, z_d_sub, z_b_sub, z_o_sub, task_sub, attention_score_sub,self.attention_values)
-        else:
-            print(f"No samples with subject # {self.subject_id}")
-            sub_similarity = None
-        ############################################
-        # ###########songs evaluation###############
-        # mask2 = song == self.song_id
-        # if mask2.sum()>0:
-        #     z_eeg_song = z_eeg[mask2]
-        #     z_v_song = z_v[mask2]
-        #     z_d_song = z_d[mask2]
-        #     z_b_song = z_b[mask2]
-        #     z_o_song = z_o[mask2]
-        #     task_song = task[mask2]
-        #     attention_score_song = attention_score[mask2]
-        #     song_similarity = self.criterion(
-        #         z_eeg_song, z_v_song, z_d_song, z_b_song, z_o_song, task_song, attention_score_song,self.attention_values)
-        # else:
-        #     print(f"No samples with song # {self.song_id}")
-        #     song_similarity = None
-        # ##############################################
 
         positive_list = similarity_dict["all"]["positive_list"]
         positive_task0 = self._get_tensor_value(positive_list[0])
@@ -964,98 +393,28 @@ class EEGContrastiveLearning(LightningModule):
         evaluation_all = self.compute_evaluation_matrix(self.matrix_list_all)
         evaluation_attention = self.compute_evaluation_matrix(self.matrix_list_attention)
 
-################# subjects evaluation ###################
-        if sub_similarity is not None:
-            sub_matrix_all = sub_similarity["all"]["matrix_list"]
-            sub_matrix_attention = sub_similarity["attention"]["matrix_list"]
-
-            self.matrix_subject_all.append(sub_matrix_all)
-            self.matrix_subject_attention.append(sub_matrix_attention)
-
-            subject_evaluation_all = self.compute_evaluation_matrix(self.matrix_subject_all)
-            subject_evaluation_attention = self.compute_evaluation_matrix(self.matrix_subject_attention)
-############################################################
-# ################# songs evaluation ###################
-        # if song_similarity is not None:
-        #     song_matrix_all = song_similarity["all"]["matrix_list"]
-        #     song_matrix_attention = song_similarity["attention"]["matrix_list"]
-
-        #     self.matrix_song_all.append(song_matrix_all)
-        #     self.matrix_song_attention.append(song_matrix_attention)
-
-        #     song_evaluation_all = self.compute_evaluation_matrix(self.matrix_song_all)
-        #     song_evaluation_attention = self.compute_evaluation_matrix(self.matrix_song_attention)
-#############################################################
-
+        print('Overall')
+        print('大小関係', evaluation_all[0])
+        print('大小4*1', evaluation_all[3])
+        print('大小*1', evaluation_all[6])
+        print('差分posグループ', evaluation_all[1])
+        print('差分negグループ', evaluation_all[2])
+        print('pos_4*1', evaluation_all[4])
+        print('neg_4*1', evaluation_all[5])
+        print('pos*1', evaluation_all[7])
+        print('pos*1', evaluation_all[8])
         
-        # print('Overall')
-        # print('大小関係', evaluation_all[0])
-        # print('大小4*1', evaluation_all[3])
-        # print('大小*1', evaluation_all[6])
-        # print('差分posグループ', evaluation_all[1])
-        # print('差分negグループ', evaluation_all[2])
-        # print('pos_4*1', evaluation_all[4])
-        # print('neg_4*1', evaluation_all[5])
-        # print('pos*1', evaluation_all[7])
-        # print('pos*1', evaluation_all[8])
-        
-        # print('Attention')
-        # print('大小関係', evaluation_attention[0])
-        # print('大小4*1', evaluation_attention[3])
-        # print('大小*1', evaluation_attention[6])
-        # print('差分posグループ', evaluation_attention[1])
-        # print('差分negグループ', evaluation_attention[2])
-        # print('pos_4*1', evaluation_attention[4])
-        # print('neg_4*1', evaluation_attention[5])
-        # print('pos*1', evaluation_attention[7])
-        # print('neg*1', evaluation_attention[8])
-################ subjects #######################
-        if sub_similarity is not None:
-            print('Subject/overall', self.subject_id)
-            print('大小関係', subject_evaluation_all[0])
-            print('大小4*1', subject_evaluation_all[3])
-            print('大小*1', subject_evaluation_all[6])
-            print('差分posグループ', subject_evaluation_all[1])
-            print('差分negグループ', subject_evaluation_all[2])
-            print('pos_4*1', subject_evaluation_all[4])
-            print('neg_4*1', subject_evaluation_all[5])
-            print('pos*1', subject_evaluation_all[7])
-            print('pos*1', subject_evaluation_all[8])
-            
-            print('Subject/attention', self.subject_id)
-            print('大小関係', subject_evaluation_attention[0])
-            print('大小4*1', subject_evaluation_attention[3])
-            print('大小*1', subject_evaluation_attention[6])
-            print('差分posグループ', subject_evaluation_attention[1])
-            print('差分negグループ', subject_evaluation_attention[2])
-            print('pos_4*1', subject_evaluation_attention[4])
-            print('neg_4*1', subject_evaluation_attention[5])
-            print('pos*1', subject_evaluation_attention[7])
-            print('neg*1', subject_evaluation_attention[8])
-# ################# songs #######################      
-        # if song_similarity is not None:
-        #     print('Song/overall', self.song_id)
-        #     print('大小関係', song_evaluation_all[0])
-        #     print('大小4*1', song_evaluation_all[3])
-        #     print('大小*1', song_evaluation_all[6])
-        #     print('差分posグループ', song_evaluation_all[1])
-        #     print('差分negグループ', song_evaluation_all[2])
-        #     print('pos_4*1', song_evaluation_all[4])
-        #     print('neg_4*1', song_evaluation_all[5])
-        #     print('pos*1', song_evaluation_all[7])
-        #     print('pos*1', song_evaluation_all[8])
-            
-        #     print('Song/attention', self.song_id)
-        #     print('大小関係', song_evaluation_attention[0])
-        #     print('大小4*1', song_evaluation_attention[3])
-        #     print('大小*1', song_evaluation_attention[6])
-        #     print('差分posグループ', song_evaluation_attention[1])
-        #     print('差分negグループ', song_evaluation_attention[2])
-        #     print('pos_4*1', song_evaluation_attention[4])
-        #     print('neg_4*1', song_evaluation_attention[5])
-        #     print('pos*1', song_evaluation_attention[7])
-        #     print('neg*1', song_evaluation_attention[8])
-       
+        print('Attention')
+        print('大小関係', evaluation_attention[0])
+        print('大小4*1', evaluation_attention[3])
+        print('大小*1', evaluation_attention[6])
+        print('差分posグループ', evaluation_attention[1])
+        print('差分negグループ', evaluation_attention[2])
+        print('pos_4*1', evaluation_attention[4])
+        print('neg_4*1', evaluation_attention[5])
+        print('pos*1', evaluation_attention[7])
+        print('neg*1', evaluation_attention[8])
+
     def on_test_end(self):
         file_path1 = "/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/similarity/all_test.xlsx"
         file_path_c1 = "/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/similarity/attention_test.xlsx"
@@ -1096,19 +455,6 @@ class EEGContrastiveLearning(LightningModule):
         self.matrix_song_attention = []
 
         return super().on_test_end()
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     def configure_criterion(self):
@@ -1200,6 +546,6 @@ class EEGContrastiveLearning(LightningModule):
                         self.audio_sample_rate))
 
         slice_audio = audio[:, :, audio_start:audio_end]
-        #####self.debug_logger.debug(f"audio, {slice_audio.shape}")
 
         return slice_audio
+
