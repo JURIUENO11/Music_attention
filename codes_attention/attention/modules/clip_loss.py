@@ -111,8 +111,6 @@ class CLIP_Loss(nn.Module):
 
             positive_e_m_0 = torch.diagonal(sim_e_m_0[:, :filtered_size0])
             positive_m_e_0 = torch.diagonal(sim_m_e_0[:filtered_size0, :])
-            # positive_samples_0 = torch.cat(
-            #     (positive_e_m_0, positive_m_e_0), dim=0).reshape(N0, 1)
             positive_samples_0 = positive_e_m_0.reshape(filtered_size0, 1)
 
 ######################## for matrix calculation ############################
@@ -124,12 +122,6 @@ class CLIP_Loss(nn.Module):
             v_b_m_e_0 = torch.diagonal(sim_m_e_0[2*filtered_size0:3*filtered_size0, :])
             v_o_m_e_0 = torch.diagonal(sim_m_e_0[3*filtered_size0:, :])
 
-            # v_d_0 = torch.cat(
-            #     (v_d_e_m_0, v_d_m_e_0), dim=0).reshape(N0, 1)
-            # v_b_0 = torch.cat(
-            #     (v_b_e_m_0, v_b_m_e_0), dim=0).reshape(N0, 1)
-            # v_o_0 = torch.cat(
-            #     (v_o_e_m_0, v_o_m_e_0), dim=0).reshape(N0, 1)
             pos_0 = (positive_e_m_0 + positive_m_e_0)/2
             v_d_0 = (v_d_e_m_0 + v_d_m_e_0)/2
             v_b_0 = (v_b_e_m_0 + v_b_m_e_0)/2
@@ -137,7 +129,6 @@ class CLIP_Loss(nn.Module):
 
             for i in range(len(pos_0)):  
                 matrix_list[0].append([pos_0[i].item(), v_d_0[i].item(), v_b_0[i].item(), v_o_0[i].item()])
-            #matrix_list.append([positive_samples_0.mean(),v_d_0.mean(),v_b_0.mean(),v_o_0.mean()])
 ############################################################################
 
             negative_e_m_01 = sim_e_m_0[:,
@@ -145,28 +136,15 @@ class CLIP_Loss(nn.Module):
             negative_e_m_02 = sim_e_m_0[:, filtered_size0:]
             negative_e_m_0 = torch.cat(
                 (negative_e_m_01, negative_e_m_02), dim=1)
-            # print('em01:',negative_e_m_01.shape)
-            # print('em02:',negative_e_m_02.shape)
-            # print('em0:',negative_e_m_0.shape)
 
             negative_m_e_01 = sim_m_e_0.T[:,
                                           :filtered_size0][mask0].reshape(filtered_size0, filtered_size0-1)
             negative_m_e_02 = sim_m_e_0.T[:, filtered_size0:]
             negative_m_e_0 = torch.cat(
                 (negative_m_e_01, negative_m_e_02), dim=1)
-            # print('me01:',negative_m_e_01.shape)
-            # print('me02:',negative_m_e_02.shape)
-            # print('me0:',negative_m_e_0.shape)
-
-            # negative_samples_0 = torch.cat(
-            #     (negative_e_m_0, negative_m_e_0), dim=0).reshape(N0, -1)
+            
             negative_samples_0 = negative_e_m_0.reshape(filtered_size0, -1)
-            # print('pos:',positive_samples_0.shape)
-            # print('neg:',negative_samples_0.shape)
-
-            # print('similarity0:', sim_e_m_0)
-            # print('pos0:',positive_samples_0)
-            # print('neg0:',negative_samples_0)
+         
 
             logits_0 = torch.cat(
                 (positive_samples_0, negative_samples_0), dim=1)
@@ -178,7 +156,6 @@ class CLIP_Loss(nn.Module):
 
         else:
             positive_list.append(None)
-            #matrix_list.append([None,None,None,None])
             print('No vocal task')
 
         if task_mask1.sum() > 0:
@@ -204,8 +181,7 @@ class CLIP_Loss(nn.Module):
                 sim_e_m_1[:, filtered_size1:2*filtered_size1])
             positive_m_e_1 = torch.diagonal(
                 sim_m_e_1[filtered_size1:2*filtered_size1, :])
-            # positive_samples_1 = torch.cat(
-            #     (positive_e_m_1, positive_m_e_1), dim=0).reshape(N1, 1)
+           
             positive_samples_1 = positive_e_m_1.reshape(filtered_size1, 1)
 ######################## for matrix calculation ############################
             d_v_e_m_1 = torch.diagonal(sim_e_m_1[:, :filtered_size1])
@@ -216,12 +192,6 @@ class CLIP_Loss(nn.Module):
             d_b_m_e_1 = torch.diagonal(sim_m_e_1[2*filtered_size1:3*filtered_size1, :])
             d_o_m_e_1 = torch.diagonal(sim_m_e_1[3*filtered_size1:, :])
 
-            # d_v_1 = torch.cat(
-            #     (d_v_e_m_1, d_v_m_e_1), dim=0).reshape(N1, 1)
-            # d_b_1 = torch.cat(
-            #     (d_b_e_m_1, d_b_m_e_1), dim=0).reshape(N1, 1)
-            # d_o_1 = torch.cat(
-            #     (d_o_e_m_1, d_o_m_e_1), dim=0).reshape(N1, 1)
             d_v_1 = (d_v_e_m_1 + d_v_m_e_1)/2
             pos_1 = (positive_e_m_1 + positive_m_e_1)/2
             d_b_1 = (d_b_e_m_1 + d_b_m_e_1)/2
@@ -229,7 +199,6 @@ class CLIP_Loss(nn.Module):
 
             for i in range(len(pos_1)):  
                 matrix_list[1].append([d_v_1[i].item(), pos_1[i].item(), d_b_1[i].item(), d_o_1[i].item()]) 
-            #matrix_list.append([d_v_1.mean(),positive_samples_1.mean(),d_b_1.mean(),d_o_1.mean()])
 ############################################################################
 
             negative_e_m_11 = sim_e_m_1[:, filtered_size1:2 *
@@ -250,14 +219,8 @@ class CLIP_Loss(nn.Module):
             negative_m_e_1 = torch.cat(
                 (negative_m_e_11, negative_m_e_12), dim=1)
 
-            # negative_samples_1 = torch.cat(
-            #     (negative_e_m_1, negative_m_e_1), dim=0).reshape(N1, -1)
+           
             negative_samples_1 = negative_e_m_1.reshape(filtered_size1, -1)
-
-
-            # print('similarity1:', sim_e_m_1)
-            # print('pos1:',positive_samples_1)
-            # print('neg1:',negative_samples_1)
 
             logits_1 = torch.cat(
                 (positive_samples_1, negative_samples_1), dim=1)
@@ -297,8 +260,6 @@ class CLIP_Loss(nn.Module):
                 sim_e_m_2[:, 2*filtered_size2:3*filtered_size2])
             positive_m_e_2 = torch.diagonal(
                 sim_m_e_2[2*filtered_size2:3*filtered_size2, :])
-            # positive_samples_2 = torch.cat(
-            #     (positive_e_m_2, positive_m_e_2), dim=0).reshape(N2, 1)
             positive_samples_2 = positive_e_m_2.reshape(filtered_size2, 1)
 
 ######################## for matrix calculation ############################
@@ -310,12 +271,6 @@ class CLIP_Loss(nn.Module):
             b_d_m_e_2 = torch.diagonal(sim_m_e_2[filtered_size2:2*filtered_size2, :])
             b_o_m_e_2 = torch.diagonal(sim_m_e_2[3*filtered_size2:, :])
 
-            # b_v_2 = torch.cat(
-            #     (b_v_e_m_2, b_v_m_e_2), dim=0).reshape(N2, 1)
-            # b_d_2 = torch.cat(
-            #     (b_d_e_m_2, b_d_m_e_2), dim=0).reshape(N2, 1)
-            # b_o_2 = torch.cat(
-            #     (b_o_e_m_2, b_o_m_e_2), dim=0).reshape(N2, 1)
             b_v_2 = (b_v_e_m_2 + b_v_m_e_2)/2
             b_d_2 = (b_d_e_m_2 + b_d_m_e_2)/2
             pos_2 = (positive_e_m_2 + positive_m_e_2)/2
@@ -344,14 +299,8 @@ class CLIP_Loss(nn.Module):
             negative_m_e_2 = torch.cat(
                 (negative_m_e_21, negative_m_e_22), dim=1)
 
-            # negative_samples_2 = torch.cat(
-            #     (negative_e_m_2, negative_m_e_2), dim=0).reshape(N2, -1)
+        
             negative_samples_2 = negative_e_m_2.reshape(filtered_size2, -1)
-
-          
-            # print('similarity2:', sim_e_m_2)
-            # print('pos2:',positive_samples_2)
-            # print('neg2:',negative_samples_2)
 
             logits_2 = torch.cat(
                 (positive_samples_2, negative_samples_2), dim=1)
@@ -363,8 +312,6 @@ class CLIP_Loss(nn.Module):
         
         else:
             positive_list.append(None)
-
-            #matrix_list.append([None,None,None,None])
             print('No bass task')
 
         if task_mask3.sum() > 0:
@@ -389,8 +336,7 @@ class CLIP_Loss(nn.Module):
 
             positive_e_m_3 = torch.diagonal(sim_e_m_3[:, 3*filtered_size3:])
             positive_m_e_3 = torch.diagonal(sim_m_e_3[3*filtered_size3:, :])
-            # positive_samples_3 = torch.cat(
-            #     (positive_e_m_3, positive_m_e_3), dim=0).reshape(N3, 1)
+        
             positive_samples_3 = positive_e_m_3.reshape(filtered_size3, 1)
 
 ######################## for matrix calculation ############################
@@ -402,12 +348,6 @@ class CLIP_Loss(nn.Module):
             o_d_m_e_3 = torch.diagonal(sim_m_e_3[filtered_size3:2*filtered_size3, :])
             o_b_m_e_3 = torch.diagonal(sim_m_e_3[2*filtered_size3:3*filtered_size3, :])
 
-            # o_v_3 = torch.cat(
-            #     (o_v_e_m_3, o_v_m_e_3), dim=0).reshape(N3, 1)
-            # o_d_3 = torch.cat(
-            #     (o_d_e_m_3, o_d_m_e_3), dim=0).reshape(N3, 1)
-            # o_b_3 = torch.cat(
-            #     (o_b_e_m_3, o_b_m_e_3), dim=0).reshape(N3, 1)
             o_v_3 = (o_v_e_m_3 + o_v_m_e_3)/2
             o_d_3 = (o_d_e_m_3 + o_d_m_e_3)/2
             o_b_3 = (o_b_e_m_3 + o_b_m_e_3)/2
@@ -430,15 +370,9 @@ class CLIP_Loss(nn.Module):
             negative_m_e_3 = torch.cat(
                 (negative_m_e_31, negative_m_e_32), dim=1)
 
-            # negative_samples_3 = torch.cat(
-            #     (negative_e_m_3, negative_m_e_3), dim=0).reshape(N3, -1)
+         
             
             negative_samples_3 = negative_e_m_3.reshape(filtered_size3, -1)
-
-            # print('similarity3:', sim_e_m_3)
-            # print('pos3:',positive_samples_3)
-            # print('neg3:',negative_samples_3)
-
 
             logits_3 = torch.cat(
                 (positive_samples_3, negative_samples_3), dim=1)
@@ -457,12 +391,4 @@ class CLIP_Loss(nn.Module):
         loss = sum(losses) / len(losses)
         negative_av = sum(negative_list) / len(negative_list)
         
-        # print('losses:',losses)
-        # print('loss:',loss)
-
-        # print('matrix_lllllllist0',matrix_list[0])
-        # print('matrix_lllllllist1',matrix_list[1])
-        # print('matrix_lllllllist2',matrix_list[2])
-        # print('matrix_lllllllist3',matrix_list[3])
-        #print('matrix_lllllllist',matrix_list)
         return loss, positive_list, negative_av, matrix_list
