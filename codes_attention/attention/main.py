@@ -219,27 +219,6 @@ if __name__ == "__main__":
 
     callback = RandomWindowUpdateCallback(train_dataset)
     
-    # trainer = Trainer.from_argparse_args(
-    #     args,
-    #     logger=logger,
-    #     sync_batchnorm=True,
-    #     max_epochs=args.max_epochs,
-    #     min_epochs=50,
-    #     deterministic=True,
-    #     log_every_n_steps=1,
-    #     check_val_every_n_epoch=1,
-    #     accelerator=args.accelerator,
-    #     resume_from_checkpoint=args.resume_checkpoint_path,
-    #     #resume_from_checkpoint='/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/clmr/runs/EXP_delay_0_all_0724/nmed-CL-preprocessing_eegmusic/version_0/checkpoints/epoch=105-step=6889.ckpt',
-    #     accumulate_grad_batches=6,
-    #     #callbacks=[early_stop_callback]
-    #     callbacks=[early_stop_callback, checkpoint_callback]
-    # )
-    # print('[[[ START ]]]', datetime.datetime.now())
-    # trainer.fit(module, train_dataloaders=train_loader, val_dataloaders=valid_loader)
-    # print('[[[ FINISH ]]]', datetime.datetime.now())
-
-########################### resume from checkpoint #########################
     trainer = Trainer.from_argparse_args(
         args,
         logger=logger,
@@ -250,14 +229,12 @@ if __name__ == "__main__":
         log_every_n_steps=1,
         check_val_every_n_epoch=1,
         accelerator=args.accelerator,
-        #resume_from_checkpoint=args.resume_checkpoint_path,
-        resume_from_checkpoint='/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/clmr/runs/sub_2_bad_1104/nmed-CL-preprocessing_eegmusic/version_0/checkpoints/best-checkpoint.ckpt',
+        resume_from_checkpoint=args.resume_checkpoint_path,
+        #resume_from_checkpoint='/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/clmr/runs/EXP_delay_0_all_0724/nmed-CL-preprocessing_eegmusic/version_0/checkpoints/epoch=105-step=6889.ckpt',
         accumulate_grad_batches=6,
+        #callbacks=[early_stop_callback]
         callbacks=[early_stop_callback, checkpoint_callback]
     )
     print('[[[ START ]]]', datetime.datetime.now())
-    checkpoint_path = "/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/clmr/runs/sub_2_bad_1104/nmed-CL-preprocessing_eegmusic/version_0/checkpoints/best-checkpoint.ckpt"
-    checkpoint = torch.load(checkpoint_path)
-    module.load_state_dict(checkpoint['state_dict'])
     trainer.fit(module, train_dataloaders=train_loader, val_dataloaders=valid_loader)
     print('[[[ FINISH ]]]', datetime.datetime.now())
