@@ -70,7 +70,6 @@ class EEGContrastiveLearning(LightningModule):
         #print('m_v',m_v.shape)
         y_eeg, y_v, y_d, y_b, y_o, z_eeg, z_v, z_d, z_b, z_o = self.forward(
             eeg, m_v, m_d, m_b, m_o)
-        # classification of EEG with clip loss
         if self.hparams.detach_z_c:
             z_v = z_v.detach()
             z_d = z_d.detach()
@@ -213,19 +212,17 @@ class EEGContrastiveLearning(LightningModule):
         first_nonempty = next((lists for lists in all_lists if any(len(t) > 0 for t in lists)), None)
         num_tasks = len(first_nonempty) if first_nonempty is not None else 4
 
-        # 4x4：ratio
         ratio_num_44 = torch.zeros((num_tasks, num_tasks), dtype=torch.float32)
         ratio_den_44 = torch.zeros((num_tasks, num_tasks), dtype=torch.float32)
-        # 4x4：difference
+        
         pos_sum_44 = torch.zeros((num_tasks, num_tasks), dtype=torch.float32)
         pos_cnt_44 = torch.zeros((num_tasks, num_tasks), dtype=torch.float32)
         neg_sum_44 = torch.zeros((num_tasks, num_tasks), dtype=torch.float32)
         neg_cnt_44 = torch.zeros((num_tasks, num_tasks), dtype=torch.float32)
 
-        # 4x1：ratio
         ratio_num_41 = torch.zeros((num_tasks, 1), dtype=torch.float32)
         ratio_den_41 = torch.zeros((num_tasks, 1), dtype=torch.float32)
-        # 4x1：difference
+        
         pos_sum_41 = torch.zeros((num_tasks, 1), dtype=torch.float32)
         pos_cnt_41 = torch.zeros((num_tasks, 1), dtype=torch.float32)
         neg_sum_41 = torch.zeros((num_tasks, 1), dtype=torch.float32)
@@ -247,7 +244,6 @@ class EEGContrastiveLearning(LightningModule):
                 task_tensor = torch.as_tensor(task_list, dtype=torch.float32)  # [N, 4]
                 pos_values = task_tensor[:, task_idx]  # [N]
 
-                # 4x4
                 for neg_idx in range(num_tasks):
                     if task_idx == neg_idx:
                         continue
@@ -268,7 +264,6 @@ class EEGContrastiveLearning(LightningModule):
                         neg_sum_44[task_idx, neg_idx] += neg_sel.sum().item()
                         neg_cnt_44[task_idx, neg_idx] += len(neg_sel)
 
-                # 4x1
                 max_values, _ = task_tensor[:, [i for i in range(num_tasks) if i != task_idx]].max(dim=1) 
                 larger = (pos_values > max_values).sum().item()
                 total = len(pos_values)
@@ -316,7 +311,6 @@ class EEGContrastiveLearning(LightningModule):
 
 
     def test_step(self, batch, batch_idx):
-    # clip loss
         eeg, m_v, m_d, m_b, m_o = batch[:5]
         task = batch[5]
         attention_score = batch[6]
@@ -399,7 +393,6 @@ class EEGContrastiveLearning(LightningModule):
 
 
     def configure_criterion(self):
-        # PT lightning aggregates differently in DP mode
         if self.hparams.accelerator == "dp" and self.hparams.gpus:
             batch_size = int(self.hparams.batch_size / self.hparams.gpus)
         else:
@@ -457,14 +450,11 @@ class EEGContrastiveLearning(LightningModule):
         self.encoder_others.load_state_dict(
             checkpoint['encoder_others_state_dict'])
 
-        # Configure the optimizers
         optimizer_config = self.configure_optimizers()
         optimizer = optimizer_config['optimizer']
 
-        # Load optimizer state
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
 
-        # Return the optimizer
         return optimizer
 
     def _get_tensor_value(self, value):
@@ -489,5 +479,6 @@ class EEGContrastiveLearning(LightningModule):
         slice_audio = audio[:, :, audio_start:audio_end]
 
         return slice_audio
+
 
 
