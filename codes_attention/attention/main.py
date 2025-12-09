@@ -15,14 +15,13 @@ import datetime
 import random
 from pathlib import Path
 import torch
-######################### random start #################################
+
 class RandomWindowUpdateCallback(pl.Callback):
     def __init__(self, dataset):
         self.dataset = dataset
 
     def on_train_epoch_start(self, trainer, pl_module):
         self.dataset.update_random_window()
-############################################################################
 
 def preprocess():
     input = config['raw_data_dir']
@@ -56,7 +55,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="PredANN")
 
-    config = yaml_config_hook("/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/config/config.yaml")
+    config = yaml_config_hook("/config.yaml_path")
     for k, v in config.items():
         parser.add_argument(f"--{k}", default=v, type=type(v))
     parser.add_argument('--mode', type=str)
@@ -230,7 +229,6 @@ if __name__ == "__main__":
         check_val_every_n_epoch=1,
         accelerator=args.accelerator,
         resume_from_checkpoint=args.resume_checkpoint_path,
-        #resume_from_checkpoint='/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/clmr/runs/EXP_delay_0_all_0724/nmed-CL-preprocessing_eegmusic/version_0/checkpoints/epoch=105-step=6889.ckpt',
         accumulate_grad_batches=6,
         #callbacks=[early_stop_callback]
         callbacks=[early_stop_callback, checkpoint_callback]
@@ -238,4 +236,5 @@ if __name__ == "__main__":
     print('[[[ START ]]]', datetime.datetime.now())
     trainer.fit(module, train_dataloaders=train_loader, val_dataloaders=valid_loader)
     print('[[[ FINISH ]]]', datetime.datetime.now())
+
 
