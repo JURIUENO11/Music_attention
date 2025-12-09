@@ -203,9 +203,9 @@ if __name__ == "__main__":
         "runs/{}".format(args.training_date), name="nmed-CL-{}".format(args.dataset))
 
     early_stop_callback = EarlyStopping(
-        monitor="Valid/loss",     # 👈 这里必须跟 log 的 key 一致
-        mode="min",             # "min" 表示希望 val_loss 越小越好
-        patience=10,            # 连续10个epoch没有提升就停止
+        monitor="Valid/loss",    
+        mode="min",           
+        patience=10,          
         verbose=True,
         strict=False
     )
@@ -213,7 +213,7 @@ if __name__ == "__main__":
     checkpoint_callback = ModelCheckpoint(
         monitor="Valid/loss",
         mode="min",
-        save_top_k=1,          # 只保留一个最优的
+        save_top_k=1,         
         filename="best-checkpoint"
     )
 
@@ -238,3 +238,4 @@ if __name__ == "__main__":
     print('[[[ START ]]]', datetime.datetime.now())
     trainer.fit(module, train_dataloaders=train_loader, val_dataloaders=valid_loader)
     print('[[[ FINISH ]]]', datetime.datetime.now())
+
