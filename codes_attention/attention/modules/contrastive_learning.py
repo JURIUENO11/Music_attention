@@ -44,14 +44,6 @@ class EEGContrastiveLearning(LightningModule):
 
         self.validation_end_values = []
         self.preprocess_dataset = preprocess_dataset
-        self.batch_accuracies = []
-        self.batch_accuracies_c = []
-        self.matrix_list_all = []
-        self.matrix_list_attention = []
-        self.matrix_subject_all = []
-        self.matrix_subject_attention = []
-        self.matrix_song_all = []
-        self.matrix_song_attention = []
 
         self.test_result = []
         self.label_accuracy_count = {
@@ -88,11 +80,11 @@ class EEGContrastiveLearning(LightningModule):
         similarity_dict = self.criterion(
             z_eeg, z_v, z_d, z_b, z_o, task, attention_score,self.attention_values)
 
-    ############# All ###########################
+    ############# All_training ###########################
         self.debug_logger.debug(f"Loss/train: {similarity_dict['all']['loss']}")
         loss = similarity_dict["all"]["loss"]
 
-    ############# Attention #####################
+    ############# Attention_training #####################
         # self.debug_logger.debug(f"Loss/train: {similarity_dict['attention']['loss']}")
         # if similarity_dict["attention"]["loss"] is None:
         #     self.debug_logger.warning(f"Batch {batch_idx} has no valid loss, setting loss to 0.")
@@ -130,10 +122,10 @@ class EEGContrastiveLearning(LightningModule):
         similarity_dict = self.criterion(
             z_eeg, z_v, z_d, z_b, z_o, task, attention_score,self.attention_values)
 
-      
+    ############# All_training ###########################
         self.debug_logger.info(f"Loss/train:{similarity_dict['all']['loss']}")
         loss = similarity_dict["all"]["loss"]
-    ############# Attention #####################
+    ############# Attention_training #####################
         # if similarity_dict["attention"]["loss"] is None:
         #     self.debug_logger.warning(f"Batch {batch_idx} has no valid loss, setting loss to 0.")
         #     loss = torch.tensor(0.0, requires_grad=True, device=self.device)
@@ -221,29 +213,27 @@ class EEGContrastiveLearning(LightningModule):
         first_nonempty = next((lists for lists in all_lists if any(len(t) > 0 for t in lists)), None)
         num_tasks = len(first_nonempty) if first_nonempty is not None else 4
 
-        # 4x4：比例 分子/分母
+        # 4x4：ratio
         ratio_num_44 = torch.zeros((num_tasks, num_tasks), dtype=torch.float32)
         ratio_den_44 = torch.zeros((num_tasks, num_tasks), dtype=torch.float32)
-        # 4x4：差值（>0/<0）之和与计数
+        # 4x4：difference
         pos_sum_44 = torch.zeros((num_tasks, num_tasks), dtype=torch.float32)
         pos_cnt_44 = torch.zeros((num_tasks, num_tasks), dtype=torch.float32)
         neg_sum_44 = torch.zeros((num_tasks, num_tasks), dtype=torch.float32)
         neg_cnt_44 = torch.zeros((num_tasks, num_tasks), dtype=torch.float32)
 
-        # 4x1：比例 分子/分母
+        # 4x1：ratio
         ratio_num_41 = torch.zeros((num_tasks, 1), dtype=torch.float32)
         ratio_den_41 = torch.zeros((num_tasks, 1), dtype=torch.float32)
-        # 4x1：差值（>0/<0）之和与计数
+        # 4x1：difference
         pos_sum_41 = torch.zeros((num_tasks, 1), dtype=torch.float32)
         pos_cnt_41 = torch.zeros((num_tasks, 1), dtype=torch.float32)
         neg_sum_41 = torch.zeros((num_tasks, 1), dtype=torch.float32)
         neg_cnt_41 = torch.zeros((num_tasks, 1), dtype=torch.float32)
 
-        # 全局 micro-average（pos > max_neg）
         total_number = 0
         larger_number = 0
 
-        # 额外返回：整体正/负差
         global_pos_sum = 0
         global_pos_cnt = 0
         global_neg_sum = 0
@@ -257,19 +247,17 @@ class EEGContrastiveLearning(LightningModule):
                 task_tensor = torch.as_tensor(task_list, dtype=torch.float32)  # [N, 4]
                 pos_values = task_tensor[:, task_idx]  # [N]
 
-                # 4x4：与每个负列逐一比较
+                # 4x4
                 for neg_idx in range(num_tasks):
                     if task_idx == neg_idx:
                         continue
                     neg_values = task_tensor[:, neg_idx]
 
-                    # 比例的分子/分母
                     larger_count = (pos_values > neg_values).sum().item()
                     total_count = len(pos_values)
                     ratio_num_44[task_idx, neg_idx] += larger_count
                     ratio_den_44[task_idx, neg_idx] += total_count
 
-                    # 差值子集的和/计数
                     differences = pos_values - neg_values
                     pos_sel = differences[differences > 0]
                     neg_sel = differences[differences < 0]
@@ -280,7 +268,7 @@ class EEGContrastiveLearning(LightningModule):
                         neg_sum_44[task_idx, neg_idx] += neg_sel.sum().item()
                         neg_cnt_44[task_idx, neg_idx] += len(neg_sel)
 
-                # 4x1：与“其它列的最大值”比较
+                # 4x1
                 max_values, _ = task_tensor[:, [i for i in range(num_tasks) if i != task_idx]].max(dim=1) 
                 larger = (pos_values > max_values).sum().item()
                 total = len(pos_values)
@@ -324,15 +312,6 @@ class EEGContrastiveLearning(LightningModule):
                 ratio, positive_difference, negative_difference]
 
     def validation_epoch_end(self, outputs):
-
-        self.batch_accuracies = []
-        self.batch_accuracies_c = []
-        self.matrix_list_all = []
-        self.matrix_list_attention = []
-        self.matrix_subject_all = []
-        self.matrix_subject_attention = []
-        self.matrix_song_all = []
-        self.matrix_song_attention = []
         self.key+=1
 
 
@@ -416,44 +395,6 @@ class EEGContrastiveLearning(LightningModule):
         print('neg*1', evaluation_attention[8])
 
     def on_test_end(self):
-        file_path1 = "/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/similarity/all_test.xlsx"
-        file_path_c1 = "/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/similarity/attention_test.xlsx"
-        column_name=["vocal", "drum", "bass", "others", "positive_av", "negative"]
-        if os.path.exists(file_path1):
-        # 读取现有数据
-            df_existing = pd.read_excel(file_path1)
-        else:
-        # 创建一个空的DataFrame
-            df_existing = pd.DataFrame(columns=column_name)
-        if os.path.exists(file_path_c1):
-        # 读取现有数据
-            df_existing_c = pd.read_excel(file_path_c1)
-        else:
-        # 创建一个空的DataFrame
-            df_existing_c = pd.DataFrame(columns=column_name)
-
-        # 创建一个包含平均值的DataFrame
-        df_all = pd.DataFrame(self.batch_accuracies, columns=column_name)
-        df_attention = pd.DataFrame(self.batch_accuracies_c, columns=column_name)
-        df_new = df_all.mean(axis=0, skipna=True).to_frame().T
-        df_new_c = df_attention.mean(axis=0, skipna=True).to_frame().T
-
-        # 将新数据追加到现有数据中
-        df_combined = pd.concat([df_existing, df_new], ignore_index=True)
-        df_combined_c = pd.concat([df_existing_c, df_new_c], ignore_index=True)
-        # 保存更新后的DataFrame到Excel
-        df_combined.to_excel(file_path1, index=False)
-        df_combined_c.to_excel(file_path_c1, index=False)
-
-        self.batch_accuracies = []
-        self.batch_accuracies_c = []
-        self.matrix_list_all = []
-        self.matrix_list_attention = []
-        self.matrix_subject_all = []
-        self.matrix_subject_attention = []
-        self.matrix_song_all = []
-        self.matrix_song_attention = []
-
         return super().on_test_end()
 
 
@@ -548,4 +489,5 @@ class EEGContrastiveLearning(LightningModule):
         slice_audio = audio[:, :, audio_start:audio_end]
 
         return slice_audio
+
 
