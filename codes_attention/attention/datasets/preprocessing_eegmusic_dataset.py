@@ -16,7 +16,6 @@ from utils import get_logger
 from pathlib import Path
 
 
-####################### sliding windows ###################
 def get_window(df,eeg_length,window_size,stride,start_position):
     df.insert(9, "window", np.zeros(len(df.index)), True)
     newdf = pd.DataFrame(np.repeat(df.values,int((eeg_length -start_position - window_size)/stride + 1), axis=0))
@@ -36,9 +35,9 @@ def get_test_window(df,eeg_length,window_size,stride):
         newdf.at[i, 'window']=i%int((eeg_length - window_size)/stride + 1)
 
     return newdf
-################################################################
+
 class Preprocessing_EEGMusic_dataset(Dataset):
-    _base_dir = "/workdir/SonyCSL_EEG/RA/MSCSMLME-copy/CLMR/data/dataset"
+    _base_dir = "/dataset_path"
     logger = get_logger("dataloader_debug")
 
     def __init__(
@@ -115,7 +114,6 @@ class Preprocessing_EEGMusic_dataset(Dataset):
             self.df, self.eeg_length, self.window_size, self.stride, start
         )
        
-
     def set_random_numbers(self, random_numbers):
         self.random_numbers = random_numbers
 
@@ -130,8 +128,6 @@ class Preprocessing_EEGMusic_dataset(Dataset):
     def set_eeg_normalization(self, eeg_normalization, clamp_value=None):
         self.eeg_normalization = eeg_normalization
         self.clamp_value = clamp_value
-
-
 
     def getitem(self, n, isClip=True):
         
@@ -276,7 +272,6 @@ class Preprocessing_EEGMusic_dataset(Dataset):
         for idx, r_path in enumerate(EEG_path_list):
             r_part = r_path.parts
 
-            # Get only train, valid or test dataset.
             r_subset = r_part[10]
             if subset != r_subset:
                 continue
