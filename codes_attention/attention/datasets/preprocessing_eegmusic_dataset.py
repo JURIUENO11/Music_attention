@@ -102,7 +102,6 @@ class Preprocessing_EEGMusic_dataset(Dataset):
         self.df = self._get_file_list(
             self.base_dir, self.subset).reset_index(drop=True)
 
-        #self.df_subset = self.df
 
         start = 0
         new_valid_df=get_window(self.df,self.eeg_length,self.window_size,self.stride,start)
@@ -115,7 +114,6 @@ class Preprocessing_EEGMusic_dataset(Dataset):
         self.df_subset = get_window(
             self.df, self.eeg_length, self.window_size, self.stride, start
         )
-        #print('start_position',start)
        
 
     def set_random_numbers(self, random_numbers):
@@ -126,8 +124,6 @@ class Preprocessing_EEGMusic_dataset(Dataset):
         self.stride = stride
 
     def labels(self):
-        #num_label = len(self.df_subset.song.unique())
-    ############## task classification ################
         num_label = len(self.df_subset.task.unique())
         return num_label
 
