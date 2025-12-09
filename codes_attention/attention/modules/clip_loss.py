@@ -19,7 +19,6 @@ class CLIP_Loss(nn.Module):
             mask[i, i] = 0
         return mask
 
-################# pytorch 1.9###################
     def isin(self, elements, test_elements):
         if not isinstance(elements, torch.Tensor):
             elements = torch.tensor(elements)
@@ -101,7 +100,6 @@ class CLIP_Loss(nn.Module):
             positive_e_m_0 = torch.diagonal(sim_e_m_0[:, :filtered_size0])
             positive_samples_0 = positive_e_m_0.reshape(filtered_size0, 1)
 
-######################## for matrix calculation ############################
             v_d_e_m_0 = torch.diagonal(sim_e_m_0[:, filtered_size0:2*filtered_size0])
             v_b_e_m_0 = torch.diagonal(sim_e_m_0[:, 2*filtered_size0:3*filtered_size0])
             v_o_e_m_0 = torch.diagonal(sim_e_m_0[:, 3*filtered_size0:])
@@ -113,7 +111,6 @@ class CLIP_Loss(nn.Module):
 
             for i in range(len(pos_0)):  
                 matrix_list[0].append([pos_0[i].item(), v_d_0[i].item(), v_b_0[i].item(), v_o_0[i].item()])
-############################################################################
 
             negative_e_m_01 = sim_e_m_0[:,
                                         :filtered_size0][mask0].reshape(filtered_size0, filtered_size0-1)
@@ -157,7 +154,6 @@ class CLIP_Loss(nn.Module):
                 sim_e_m_1[:, filtered_size1:2*filtered_size1])
         
             positive_samples_1 = positive_e_m_1.reshape(filtered_size1, 1)
-######################## for matrix calculation ############################
             d_v_e_m_1 = torch.diagonal(sim_e_m_1[:, :filtered_size1])
             d_b_e_m_1 = torch.diagonal(sim_e_m_1[:, 2*filtered_size1:3*filtered_size1])
             d_o_e_m_1 = torch.diagonal(sim_e_m_1[:, 3*filtered_size1:])
@@ -169,7 +165,6 @@ class CLIP_Loss(nn.Module):
 
             for i in range(len(pos_1)):  
                 matrix_list[1].append([d_v_1[i].item(), pos_1[i].item(), d_b_1[i].item(), d_o_1[i].item()]) 
-############################################################################
 
             negative_e_m_11 = sim_e_m_1[:, filtered_size1:2 *
                                         filtered_size1][mask1].reshape(filtered_size1, filtered_size1-1)
@@ -217,7 +212,6 @@ class CLIP_Loss(nn.Module):
                 sim_e_m_2[:, 2*filtered_size2:3*filtered_size2])
           
             positive_samples_2 = positive_e_m_2.reshape(filtered_size2, 1)
-######################## for matrix calculation ############################
             b_v_e_m_2 = torch.diagonal(sim_e_m_2[:, :filtered_size2])
             b_d_e_m_2 = torch.diagonal(sim_e_m_2[:, filtered_size2:2*filtered_size2])
             b_o_e_m_2 = torch.diagonal(sim_e_m_2[:, 3*filtered_size2:])
@@ -229,7 +223,6 @@ class CLIP_Loss(nn.Module):
 
             for i in range(len(pos_2)):  
                 matrix_list[2].append([b_v_2[i].item(), b_d_2[i].item(), pos_2[i].item(), b_o_2[i].item()])
-############################################################################
             negative_e_m_21 = sim_e_m_2[:, 2*filtered_size2:3 *
                                         filtered_size2][mask2].reshape(filtered_size2, filtered_size2-1)
             negative_e_m_22_part1 = sim_e_m_2[:, :2*filtered_size2]
@@ -275,7 +268,6 @@ class CLIP_Loss(nn.Module):
         
             positive_samples_3 = positive_e_m_3.reshape(filtered_size3, 1)
 
-######################## for matrix calculation ############################
             o_v_e_m_3 = torch.diagonal(sim_e_m_3[:, :filtered_size3])
             o_d_e_m_3 = torch.diagonal(sim_e_m_3[:, filtered_size3:2*filtered_size3])
             o_b_e_m_3 = torch.diagonal(sim_e_m_3[:, 2*filtered_size3:3*filtered_size3])
@@ -288,7 +280,6 @@ class CLIP_Loss(nn.Module):
             for i in range(len(pos_3)):  
                 matrix_list[3].append([o_v_3[i].item(), o_d_3[i].item(), o_b_3[i].item(), pos_3[i].item()])
             #matrix_list.append([o_v_3.mean(),o_d_3.mean(),o_b_3.mean(),positive_samples_3.mean()])
-############################################################################
             negative_e_m_31 = sim_e_m_3[:, 3 *
                                         filtered_size3:][mask3].reshape(filtered_size3, filtered_size3-1)
             negative_e_m_32 = sim_e_m_3[:, :3*filtered_size3]
