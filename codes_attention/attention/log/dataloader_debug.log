@@ -1,0 +1,116 @@
+2025-12-10 02:39:19,322 - dataloader_debug - INFO - Loss/train:1.3098905086517334
+2025-12-10 02:39:19,325 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(0.1909, device='cuda:0'), None, None, None]
+2025-12-10 02:39:19,326 - dataloader_debug - INFO - Outputs for negative pairs:0.06259500235319138
+2025-12-10 02:39:19,326 - dataloader_debug - INFO - Loss/valid_attention:1.3098905086517334
+2025-12-10 02:40:46,785 - dataloader_debug - INFO - Loss/train:1.3098905086517334
+2025-12-10 02:40:46,786 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(0.1909, device='cuda:0'), None, None, None]
+2025-12-10 02:40:46,786 - dataloader_debug - INFO - Outputs for negative pairs:0.06259500235319138
+2025-12-10 02:40:46,786 - dataloader_debug - INFO - Loss/valid_attention:1.3098905086517334
+2025-12-10 02:42:19,358 - dataloader_debug - INFO - Loss/train:1.3098905086517334
+2025-12-10 02:42:19,359 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(0.1909, device='cuda:0'), None, None, None]
+2025-12-10 02:42:19,359 - dataloader_debug - INFO - Outputs for negative pairs:0.06259500235319138
+2025-12-10 02:42:19,359 - dataloader_debug - INFO - Loss/valid_attention:1.3098905086517334
+2025-12-10 02:43:02,558 - dataloader_debug - INFO - Loss/train:1.3098905086517334
+2025-12-10 02:43:02,559 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(0.1909, device='cuda:0'), None, None, None]
+2025-12-10 02:43:02,559 - dataloader_debug - INFO - Outputs for negative pairs:0.06259500235319138
+2025-12-10 02:43:02,559 - dataloader_debug - INFO - Loss/valid_attention:1.3098905086517334
+2025-12-10 02:43:02,651 - dataloader_debug - INFO - Loss/train:1.3101757764816284
+2025-12-10 02:43:02,651 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(0.1897, device='cuda:0'), None, None, None]
+2025-12-10 02:43:02,651 - dataloader_debug - INFO - Outputs for negative pairs:0.061648495495319366
+2025-12-10 02:43:02,651 - dataloader_debug - INFO - Loss/valid_attention:1.3101757764816284
+2025-12-10 02:44:02,398 - dataloader_debug - INFO - Loss/train:3.388437032699585
+2025-12-10 02:44:02,398 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(0.1912, device='cuda:0'), None, None, None]
+2025-12-10 02:44:02,399 - dataloader_debug - INFO - Outputs for negative pairs:0.09081718325614929
+2025-12-10 02:44:02,399 - dataloader_debug - INFO - Loss/valid_attention:3.388437032699585
+2025-12-10 02:44:03,022 - dataloader_debug - INFO - Loss/train:3.3837692737579346
+2025-12-10 02:44:03,022 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(0.1971, device='cuda:0'), None, None, None]
+2025-12-10 02:44:03,022 - dataloader_debug - INFO - Outputs for negative pairs:0.09176615625619888
+2025-12-10 02:44:03,022 - dataloader_debug - INFO - Loss/valid_attention:3.3837692737579346
+2025-12-10 02:44:57,876 - dataloader_debug - INFO - Loss/train:3.388437032699585
+2025-12-10 02:44:57,876 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(0.1912, device='cuda:0'), None, None, None]
+2025-12-10 02:44:57,876 - dataloader_debug - INFO - Outputs for negative pairs:0.09081718325614929
+2025-12-10 02:44:57,876 - dataloader_debug - INFO - Loss/valid_attention:3.388437032699585
+2025-12-10 02:44:58,501 - dataloader_debug - INFO - Loss/train:3.3837692737579346
+2025-12-10 02:44:58,502 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(0.1971, device='cuda:0'), None, None, None]
+2025-12-10 02:44:58,502 - dataloader_debug - INFO - Outputs for negative pairs:0.09176615625619888
+2025-12-10 02:44:58,502 - dataloader_debug - INFO - Loss/valid_attention:3.3837692737579346
+2025-12-10 03:05:51,490 - dataloader_debug - INFO - Loss/train:3.6572656631469727
+2025-12-10 03:05:51,491 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1242, device='cuda:0'), None, None, None]
+2025-12-10 03:05:51,491 - dataloader_debug - INFO - Outputs for negative pairs:0.062159162014722824
+2025-12-10 03:05:51,491 - dataloader_debug - INFO - Loss/valid_attention:3.6572656631469727
+2025-12-10 03:05:52,118 - dataloader_debug - INFO - Loss/train:3.655571222305298
+2025-12-10 03:05:52,119 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1256, device='cuda:0'), None, None, None]
+2025-12-10 03:05:52,119 - dataloader_debug - INFO - Outputs for negative pairs:0.05913974717259407
+2025-12-10 03:05:52,119 - dataloader_debug - INFO - Loss/valid_attention:3.655571222305298
+2025-12-10 03:13:03,203 - dataloader_debug - INFO - Loss/train:3.6572656631469727
+2025-12-10 03:13:03,204 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1242, device='cuda:0'), None, None, None]
+2025-12-10 03:13:03,204 - dataloader_debug - INFO - Outputs for negative pairs:0.062159162014722824
+2025-12-10 03:13:03,204 - dataloader_debug - INFO - Loss/valid_attention:3.6572656631469727
+2025-12-10 03:13:03,901 - dataloader_debug - INFO - Loss/train:3.655571222305298
+2025-12-10 03:13:03,901 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1256, device='cuda:0'), None, None, None]
+2025-12-10 03:13:03,901 - dataloader_debug - INFO - Outputs for negative pairs:0.05913974717259407
+2025-12-10 03:13:03,901 - dataloader_debug - INFO - Loss/valid_attention:3.655571222305298
+2025-12-10 03:13:38,968 - dataloader_debug - INFO - Loss/train:3.6572656631469727
+2025-12-10 03:13:38,968 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1242, device='cuda:0'), None, None, None]
+2025-12-10 03:13:38,969 - dataloader_debug - INFO - Outputs for negative pairs:0.062159162014722824
+2025-12-10 03:13:38,969 - dataloader_debug - INFO - Loss/valid_attention:3.6572656631469727
+2025-12-10 03:13:39,622 - dataloader_debug - INFO - Loss/train:3.655571222305298
+2025-12-10 03:13:39,623 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1256, device='cuda:0'), None, None, None]
+2025-12-10 03:13:39,623 - dataloader_debug - INFO - Outputs for negative pairs:0.05913974717259407
+2025-12-10 03:13:39,623 - dataloader_debug - INFO - Loss/valid_attention:3.655571222305298
+2025-12-10 03:14:02,528 - dataloader_debug - INFO - Loss/train:3.6572656631469727
+2025-12-10 03:14:02,528 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1242, device='cuda:0'), None, None, None]
+2025-12-10 03:14:02,529 - dataloader_debug - INFO - Outputs for negative pairs:0.062159162014722824
+2025-12-10 03:14:02,529 - dataloader_debug - INFO - Loss/valid_attention:3.6572656631469727
+2025-12-10 03:14:03,164 - dataloader_debug - INFO - Loss/train:3.655571222305298
+2025-12-10 03:14:03,165 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1256, device='cuda:0'), None, None, None]
+2025-12-10 03:14:03,165 - dataloader_debug - INFO - Outputs for negative pairs:0.05913974717259407
+2025-12-10 03:14:03,165 - dataloader_debug - INFO - Loss/valid_attention:3.655571222305298
+2025-12-10 03:15:17,287 - dataloader_debug - INFO - Loss/train:3.6572656631469727
+2025-12-10 03:15:17,287 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1242, device='cuda:0'), None, None, None]
+2025-12-10 03:15:17,287 - dataloader_debug - INFO - Outputs for negative pairs:0.062159162014722824
+2025-12-10 03:15:17,288 - dataloader_debug - INFO - Loss/valid_attention:3.6572656631469727
+2025-12-10 03:15:18,033 - dataloader_debug - INFO - Loss/train:3.655571222305298
+2025-12-10 03:15:18,033 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1256, device='cuda:0'), None, None, None]
+2025-12-10 03:15:18,033 - dataloader_debug - INFO - Outputs for negative pairs:0.05913974717259407
+2025-12-10 03:15:18,033 - dataloader_debug - INFO - Loss/valid_attention:3.655571222305298
+2025-12-10 03:15:44,113 - dataloader_debug - INFO - Loss/train:3.6572656631469727
+2025-12-10 03:15:44,113 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1242, device='cuda:0'), None, None, None]
+2025-12-10 03:15:44,113 - dataloader_debug - INFO - Outputs for negative pairs:0.062159162014722824
+2025-12-10 03:15:44,113 - dataloader_debug - INFO - Loss/valid_attention:3.6572656631469727
+2025-12-10 03:15:44,722 - dataloader_debug - INFO - Loss/train:3.655571222305298
+2025-12-10 03:15:44,723 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1256, device='cuda:0'), None, None, None]
+2025-12-10 03:15:44,723 - dataloader_debug - INFO - Outputs for negative pairs:0.05913974717259407
+2025-12-10 03:15:44,723 - dataloader_debug - INFO - Loss/valid_attention:3.655571222305298
+2025-12-10 03:36:25,523 - dataloader_debug - INFO - Loss/train:3.6572656631469727
+2025-12-10 03:36:25,524 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1242, device='cuda:0'), None, None, None]
+2025-12-10 03:36:25,524 - dataloader_debug - INFO - Outputs for negative pairs:0.062159162014722824
+2025-12-10 03:36:25,524 - dataloader_debug - INFO - Loss/valid_attention:3.6572656631469727
+2025-12-10 03:36:26,204 - dataloader_debug - INFO - Loss/train:3.655571222305298
+2025-12-10 03:36:26,204 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1256, device='cuda:0'), None, None, None]
+2025-12-10 03:36:26,204 - dataloader_debug - INFO - Outputs for negative pairs:0.05913974717259407
+2025-12-10 03:36:26,204 - dataloader_debug - INFO - Loss/valid_attention:3.655571222305298
+2025-12-10 03:40:56,001 - dataloader_debug - INFO - Loss/train:3.6572656631469727
+2025-12-10 03:40:56,001 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1242, device='cuda:0'), None, None, None]
+2025-12-10 03:40:56,001 - dataloader_debug - INFO - Outputs for negative pairs:0.062159162014722824
+2025-12-10 03:40:56,001 - dataloader_debug - INFO - Loss/valid_attention:3.6572656631469727
+2025-12-10 03:40:56,608 - dataloader_debug - INFO - Loss/train:3.655571222305298
+2025-12-10 03:40:56,608 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1256, device='cuda:0'), None, None, None]
+2025-12-10 03:40:56,608 - dataloader_debug - INFO - Outputs for negative pairs:0.05913974717259407
+2025-12-10 03:40:56,608 - dataloader_debug - INFO - Loss/valid_attention:3.655571222305298
+2025-12-10 03:45:27,577 - dataloader_debug - INFO - Loss/train:3.6572656631469727
+2025-12-10 03:45:27,578 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1242, device='cuda:0'), None, None, None]
+2025-12-10 03:45:27,578 - dataloader_debug - INFO - Outputs for negative pairs:0.062159162014722824
+2025-12-10 03:45:27,578 - dataloader_debug - INFO - Loss/valid_attention:3.6572656631469727
+2025-12-10 03:45:28,202 - dataloader_debug - INFO - Loss/train:3.655571222305298
+2025-12-10 03:45:28,202 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1256, device='cuda:0'), None, None, None]
+2025-12-10 03:45:28,203 - dataloader_debug - INFO - Outputs for negative pairs:0.05913974717259407
+2025-12-10 03:45:28,203 - dataloader_debug - INFO - Loss/valid_attention:3.655571222305298
+2025-12-10 03:46:51,570 - dataloader_debug - INFO - Loss/train:3.6572656631469727
+2025-12-10 03:46:51,571 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1242, device='cuda:0'), None, None, None]
+2025-12-10 03:46:51,571 - dataloader_debug - INFO - Outputs for negative pairs:0.062159162014722824
+2025-12-10 03:46:51,571 - dataloader_debug - INFO - Loss/valid_attention:3.6572656631469727
+2025-12-10 03:46:52,216 - dataloader_debug - INFO - Loss/train:3.655571222305298
+2025-12-10 03:46:52,216 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1256, device='cuda:0'), None, None, None]
+2025-12-10 03:46:52,216 - dataloader_debug - INFO - Outputs for negative pairs:0.05913974717259407
+2025-12-10 03:46:52,216 - dataloader_debug - INFO - Loss/valid_attention:3.655571222305298

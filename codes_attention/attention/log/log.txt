@@ -1,0 +1,174 @@
+Global seed set to 42
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1]
+2025-12-10 03:46:49.111726: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F AVX512_VNNI FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-12-10 03:46:49.248819: I tensorflow/core/util/port.cc:104] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-12-10 03:46:49.748746: W tensorflow/compiler/xla/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/nvidia/lib:/usr/local/nvidia/lib64
+2025-12-10 03:46:49.748811: W tensorflow/compiler/xla/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/nvidia/lib:/usr/local/nvidia/lib64
+2025-12-10 03:46:49.748819: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+
+  | Name           | Type           | Params
+--------------------------------------------------
+0 | encoder_raw_e  | SampleCNN2DEEG | 116 K 
+1 | encoder_vocal  | SampleCNN2DEEG | 116 K 
+2 | encoder_drum   | SampleCNN2DEEG | 116 K 
+3 | encoder_bass   | SampleCNN2DEEG | 116 K 
+4 | encoder_others | SampleCNN2DEEG | 116 K 
+5 | criterion      | CLIP_Loss      | 0     
+--------------------------------------------------
+580 K     Trainable params
+0         Non-trainable params
+580 K     Total params
+2.322     Total estimated model params size (MB)
+no augmentation
+Size of train dataset: 2541
+Size of valid dataset: 869
+Size of test dataset: 611
+EEG Contrastive learning
+use CLIP_loss as criterion
+[[[ START ]]] 2025-12-10 03:46:47.409731
+Validation sanity check: 0it [00:00, ?it/s]Validation sanity check:   0%|          | 0/2 [00:00<?, ?it/s]/opt/conda/lib/python3.7/site-packages/pytorch_lightning/trainer/data_loading.py:106: UserWarning: The dataloader, val dataloader 0, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 18 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+  f"The dataloader, {name}, does not have many workers which may be a bottleneck."
+2025-12-10 03:46:51,570 - dataloader_debug - INFO - Loss/train:3.6572656631469727
+2025-12-10 03:46:51,571 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1242, device='cuda:0'), None, None, None]
+2025-12-10 03:46:51,571 - dataloader_debug - INFO - Outputs for negative pairs:0.062159162014722824
+2025-12-10 03:46:51,571 - dataloader_debug - INFO - Loss/valid_attention:3.6572656631469727
+No drum task
+No bass task
+No others task
+No drum task
+No bass task
+No others task
+Overall
+大小関係 tensor([[nan, 0., 0., 0.],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan]])
+大小4*1 tensor([[0.],
+        [nan],
+        [nan],
+        [nan]])
+大小*1 0.0
+差分posグループ tensor([[nan, nan, nan, nan],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan]])
+差分negグループ tensor([[    nan, -0.2251, -0.3957, -0.1012],
+        [    nan,     nan,     nan,     nan],
+        [    nan,     nan,     nan,     nan],
+        [    nan,     nan,     nan,     nan]])
+pos_4*1 tensor([[nan],
+        [nan],
+        [nan],
+        [nan]])
+neg_4*1 tensor([[-0.3957],
+        [    nan],
+        [    nan],
+        [    nan]])
+pos*1 nan
+pos*1 -0.39572978019714355
+Attention
+大小関係 tensor([[nan, 0., 0., 0.],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan]])
+大小4*1 tensor([[0.],
+        [nan],
+        [nan],
+        [nan]])
+大小*1 0.0
+差分posグループ tensor([[nan, nan, nan, nan],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan]])
+差分negグループ tensor([[    nan, -0.2251, -0.3957, -0.1012],
+        [    nan,     nan,     nan,     nan],
+        [    nan,     nan,     nan,     nan],
+        [    nan,     nan,     nan,     nan]])
+pos_4*1 tensor([[nan],
+        [nan],
+        [nan],
+        [nan]])
+neg_4*1 tensor([[-0.3957],
+        [    nan],
+        [    nan],
+        [    nan]])
+pos*1 nan
+neg*1 -0.39572978019714355
+Validation sanity check:  50%|█████     | 1/2 [00:01<00:01,  1.06s/it]2025-12-10 03:46:52,216 - dataloader_debug - INFO - Loss/train:3.655571222305298
+2025-12-10 03:46:52,216 - dataloader_debug - INFO - Outputs for positive pairs:[tensor(-0.1256, device='cuda:0'), None, None, None]
+2025-12-10 03:46:52,216 - dataloader_debug - INFO - Outputs for negative pairs:0.05913974717259407
+2025-12-10 03:46:52,216 - dataloader_debug - INFO - Loss/valid_attention:3.655571222305298
+No drum task
+No bass task
+No others task
+No drum task
+No bass task
+No others task
+Overall
+大小関係 tensor([[nan, 0., 0., 0.],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan]])
+大小4*1 tensor([[0.],
+        [nan],
+        [nan],
+        [nan]])
+大小*1 0.0
+差分posグループ tensor([[nan, nan, nan, nan],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan]])
+差分negグループ tensor([[    nan, -0.2228, -0.3950, -0.1011],
+        [    nan,     nan,     nan,     nan],
+        [    nan,     nan,     nan,     nan],
+        [    nan,     nan,     nan,     nan]])
+pos_4*1 tensor([[nan],
+        [nan],
+        [nan],
+        [nan]])
+neg_4*1 tensor([[-0.3950],
+        [    nan],
+        [    nan],
+        [    nan]])
+pos*1 nan
+pos*1 -0.3949599266052246
+Attention
+大小関係 tensor([[nan, 0., 0., 0.],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan]])
+大小4*1 tensor([[0.],
+        [nan],
+        [nan],
+        [nan]])
+大小*1 0.0
+差分posグループ tensor([[nan, nan, nan, nan],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan],
+        [nan, nan, nan, nan]])
+差分negグループ tensor([[    nan, -0.2228, -0.3950, -0.1011],
+        [    nan,     nan,     nan,     nan],
+        [    nan,     nan,     nan,     nan],
+        [    nan,     nan,     nan,     nan]])
+pos_4*1 tensor([[nan],
+        [nan],
+        [nan],
+        [nan]])
+neg_4*1 tensor([[-0.3950],
+        [    nan],
+        [    nan],
+        [    nan]])
+pos*1 nan
+neg*1 -0.3949599266052246
+Validation sanity check: 100%|██████████| 2/2 [00:01<00:00,  1.23it/s]                                                                      Global seed set to 42
+/opt/conda/lib/python3.7/site-packages/pytorch_lightning/trainer/data_loading.py:106: UserWarning: The dataloader, train dataloader, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 18 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+  f"The dataloader, {name}, does not have many workers which may be a bottleneck."
+Training: -1it [00:00, ?it/s]Training:   0%|          | 0/425 [00:00<00:00, 23696.63it/s]Epoch 0:   0%|          | 0/425 [00:00<00:00, 5714.31it/s]  No drum task
+No drum task
+Epoch 0:   0%|          | 1/425 [00:03<11:53,  1.68s/it]  Epoch 0:   0%|          | 1/425 [00:03<11:53,  1.68s/it, loss=2.06, v_num=19]No bass task
+No bass task
+Epoch 0:   0%|          | 2/425 [00:06<14:40,  2.08s/it, loss=2.06, v_num=19]Epoch 0:   0%|          | 2/425 [00:06<14:40,  2.08s/it, loss=2.17, v_num=19]
