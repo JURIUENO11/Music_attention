@@ -1,4 +1,4 @@
-# Predicting Artificial Neural Network Representations to Learn Recognition Model for Music Identification from Brain Recordings
+# Decoding Selective Auditory Attention to Musical Elements in Ecologically Valid Music Listening
 
 ## Neural Network Architecture
 Two separate 2D CNNs are employed to process music and EEG data independently. The outputs include individual losses for music and EEG, along with a contrastive loss for learning the relationship between the two modalities.
