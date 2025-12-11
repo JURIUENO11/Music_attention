@@ -1,7 +1,9 @@
 # Decoding Selective Auditory Attention to Musical Elements in Ecologically Valid Music Listening
 
 ## Neural Network Architecture
-Two separate 2D CNNs are employed to process music and EEG data independently. The outputs include individual losses for music and EEG, along with a contrastive loss for learning the relationship between the two modalities.
+EEG and four audio streams are processed independently using separate 2D CNNs.
+Cosine similarity between EEG and each audio embedding is computed (4 times), forming a similarity matrix.
+Contrastive loss is calculated from this similarity matrix.
 ![image](model.png) 
 
 ## How to run codes
