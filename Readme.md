@@ -75,48 +75,47 @@ Contrastive loss is calculated from this similarity matrix.
 ```
 codes_attention/
 ├── attention/
-│ ├── datasets/ # Dataset definitions and data loading
-│ │ ├── init.py
-│ │ ├── dataset.py # Base dataset utilities
-│ │ └── preprocessing_eegmusic_dataset.py
-│ │ # EEG-Music dataset with preprocessing logic
+│ ├── datasets/ 
+│ │ ├── init.py                                                             # Initialization file for the datasets module
+│ │ ├── dataset.py                                                          # Base class for datasets
+│ │ └── preprocessing_eegmusic_dataset.py                                   # Preprocessing script for EEG and music data
 │ │
-│ ├── models/ # Model architectures
-│ │ ├── init.py
-│ │ ├── model.py # Model wrapper / high-level model definition
-│ │ └── sample_cnn2d_eeg.py # 2D CNN encoder for EEG signals
+│ ├── models/ 
+│ │ ├── init.py                                                             # Initialization file for the models module
+│ │ ├── model.py                                                            # Base class for model definitions              
+│ │ └── sample_cnn2d_eeg.py                                                 # Implementation of a 2D CNN model               
 │ │
-│ ├── modules/ # Training modules and loss functions
-│ │ ├── init.py
-│ │ ├── clip_loss.py # CLIP-style contrastive loss
-│ │ └── contrastive_learning.py # EEG contrastive learning module
+│ ├── modules/ 
+│ │ ├── init.py                                                             # Initialization file for the modules 
+│ │ ├── clip_loss.py                                                        # Implementation of the Clip Loss function
+│ │ └── contrastive_learning.py                                             # Script for contrastive learning
 │ │
-│ ├── preprocessing/ # Data preprocessing scripts
+│ ├── preprocessing/                                                        # Data separation scripts
 │ │ ├── init.py
-│ │ └── transform.py # Raw data preprocessing and separation
+│ │ └── transform.py 
 │ │
-│ ├── utils/ # Utility functions
+│ ├── utils/                                                                # Utility functions
 │ │ ├── init.py
-│ │ ├── checkpoint.py # Checkpoint helper functions
-│ │ ├── file_helpers.py # File I/O helpers
-│ │ ├── logger.py # Logging utilities
-│ │ ├── time_helper.py # Time and date utilities
-│ │ └── yaml_config_hook.py # YAML configuration loader
+│ │ ├── checkpoint.py 
+│ │ ├── file_helpers.py 
+│ │ ├── logger.py 
+│ │ ├── time_helper.py 
+│ │ └── yaml_config_hook.py 
 │ │
 
 │ │
-│ ├── main.py # Main entry point (train / test / preprocess)
-│ ├── checkpoint_test.py # Script for loading checkpoints and testing
-│ ├── sequential.sh # Shell script for running training experiments
-│ ├── sequential_test.sh # Shell script for running test experiments
-│ ├── checkpoint_example.ckpt # Example pretrained checkpoint
+│ ├── main.py                                                               # Main script for training and validation
+│ ├── checkpoint_test.py                                                    # Script for loading checkpoints and testing
+│ ├── sequential.sh                                                         # Shell script for running training and validation experiments
+│ ├── sequential_test.sh                                                    # Shell script for running test experiments
+│ ├── checkpoint_example.ckpt                                               # Example checkpoint
 │
-├── config/ # Global configuration files
-│ └── config.yaml # Default configuration
+├── config/                                                                 # Global configuration files
+│ └── config.yaml 
 │
-├── tracklist.csv # Track list used for data preprocessing
-├── requirements.txt # Python dependencies
-└── LICENSE # License information
+├── tracklist.csv                                                           # Track list of the dataset used for data preprocessing
+├── requirements.txt                                                        # Python dependencies
+└── LICENSE                                                                 # License information
 ```
 
 
