@@ -7,34 +7,48 @@ Contrastive loss is calculated from this similarity matrix.
 ![image](model.png) 
 
 ## How to run codes
-### For data saperation
-1. **Open `codes_attention/attention/preprocessing/transform.py`**
+### For data separation
+1. **Update the data preparation path**
+   - Open `codes_attention/attention/preprocessing/transform.py`.
    - Update the `tracklist.csv` path on line 13 to the correct location.
-2. **Open `codes_attention/attention/sequential.sh`**
+
+2. **Set the correct mode for preprocessing**
+   - Open `codes_attention/attention/sequential.sh`.
    - Add the `--mode preprocess` argument (see `codes_attention/attention/main.py`, lines 72–75).
-3. **Run the experiment**  
-Execute the experiment script in the terminal using the following command:
-```bash
-   nohup sh sequential_3s.sh > log/log.txt &
-```
+
+3. **Run the experiment**
+   - Execute the script from the `codes_attention/attention/` directory:
+     ```bash
+     nohup sh sequential.sh > log/log.txt &
+     ```
    
 ### Steps to Execute Experiments
-#### For 3s experiment (train and validation)
-1. **Navigate to the appropriate folder**  
-   - For a **3-second experiment**, go to the **`codes_3s`** directory.
-2. **Run the experiment**  
-Execute the experiment script in the terminal using the following command:
-```bash
-   nohup sh sequential_3s.sh > log/log.txt &
-```
+1. **Update correct path and part for data preprocessing**  
+   - Open `codes_attention/attention/datasets/preprocessing_eegmusic_dataset.py`.
+   - Update the correct path of dataet on line 40.
+   - Update the correct index of each part from line 266 to 282.
+     In our example, the eeg dataset is like `codes_attention/dataset/eeg/0/train/3/0/5/eeg.pkl`, which represents subject_id in part[4], subset in part[5], song_id in part[6], task in part[7], and attentionscore in part[8].
+
+2. **Set training loss**
+   - Open `codes_attention/attention/sequential.sh`.
+   - Choose the `--key` argument as  from 'all' or 'high_attention'. 'all' represents using all data for training and validation while 'high_attention' means only use attention_score 4 or 5 trails for training and validation (see `codes_attention/attention/contrastive_learning.py`, lines 79–90, 120-130).
+
+3. **Run the experiment**
+   - Execute the script from the `codes_attention/attention/` directory:
+     ```bash
+     nohup sh sequential.sh > log/log.txt &
+     ```
    - Output logs are saved to **`log/log.txt`**.
-3. **Monitor the experiment's progress**  
+     
+4. **Monitor the experiment's progress**  
 You can monitor the experiment's progress by checking the log file  
    - The log file contains real-time outputs.
+     
 4. **Verification of results**  
-The experimental outcomes can be validated by examining the trained model saved under **`codes_3s/run`**.  
-   - The generated checkpoint files are stored in this directory and can be utilized for subsequent 7s experiments.  
-   - To customize the checkpoint naming convention, modify the **`training_date`** parameter within the script **`sequential_3s.sh`**.  
+The experimental outcomes can be validated by examining the trained model saved under **`codes_attention/attention/runs`**.  
+   - The generated checkpoint files are stored in this directory and can be utilized for testing experiments.  
+   - To customize the checkpoint naming convention, modify the **`training_date`** parameter within the script **`sequential.sh`**.
+   - checkpoint can be load in the **`codes_attention/attention/main_test.py`**, on line
 
 #### For 7s experiment (validation only)
 1. **Navigate to the appropriate folder**  
