@@ -123,4 +123,4 @@ codes_attention/
 This project is under the CC-BY-SA 4.0 license. See [LICENSE](LICENSE) for details.
 
 ## Copyright
-Copyright (c) 2024 Sony Computer Science Laboratories, Inc., Tokyo, Japan. All rights reserved. This source code is licensed under the [LICENSE](LICENSE).
+Copyright (c) 2025 Sony Computer Science Laboratories, Inc., Tokyo, Japan. All rights reserved. This source code is licensed under the [LICENSE](LICENSE).
