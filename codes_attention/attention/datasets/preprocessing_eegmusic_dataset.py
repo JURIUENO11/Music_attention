@@ -263,7 +263,7 @@ class Preprocessing_EEGMusic_dataset(Dataset):
         if not os.path.exists(BASE):
             raise RuntimeError('BASE folder is not found')
 
-        Audio_path_list = [{'task': int(f.parts[4]), 'name': self._get_song_id(
+        Audio_path_list = [{'task': int(f.parts[3]), 'name': self._get_song_id(
             f.name), 'path': f} for f in Path(BASE).rglob('*.wav') if f.is_file()]
 
         df = pd.DataFrame(columns=['subject', 'song', 'task', 'attention_score',
@@ -272,14 +272,14 @@ class Preprocessing_EEGMusic_dataset(Dataset):
         for idx, r_path in enumerate(EEG_path_list):
             r_part = r_path.parts
 
-            r_subset = r_part[5]
+            r_subset = r_part[4]
             if subset != r_subset:
                 continue
 
-            r_subject = r_part[4]
-            r_song = self._get_song_id(r_part[6])
-            r_task = int(r_part[7])
-            attention_score = int(r_part[8])
+            r_subject = r_part[3]
+            r_song = self._get_song_id(r_part[5])
+            r_task = int(r_part[6])
+            attention_score = int(r_part[7])
 
             c_audio_list = list(filter(lambda x: self._get_song_id(
                 x["name"]) == self._get_song_id(r_song), Audio_path_list))
