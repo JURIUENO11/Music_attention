@@ -7,6 +7,17 @@ Contrastive loss is calculated from this similarity matrix.
 ![image](model.png) 
 
 ## How to run codes
+### For data saperation
+1. **Navigate to the **`codes_attention/attention/preprocessing/transform.py`** file**  
+   - Change the correct path of the **`tracklist.csv`** in line 13.
+2. **Navigate to the **`codes_attention/attention/sequential.sh`** file** 
+   - Add the parameter of *mode* as *preprocess*, as shown in **`codes_attention/attention/main.py`** line 72-75.
+3. **Run the experiment**  
+Execute the experiment script in the terminal using the following command:
+```bash
+   nohup sh sequential_3s.sh > log/log.txt &
+```
+   
 ### Steps to Execute Experiments
 #### For 3s experiment (train and validation)
 1. **Navigate to the appropriate folder**  
