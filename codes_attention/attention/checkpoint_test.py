@@ -214,35 +214,5 @@ if __name__ == "__main__":
     checkpoint_path = "/workdir/codes_attention/attention/runs/test/nmed-CL-preprocessing_eegmusic/version_8/checkpoints/last.ckpt"
     checkpoint = torch.load(checkpoint_path)
     module.load_state_dict(checkpoint['state_dict'])
-
-    # ############## .onnx #######################
-    # # B = next(iter(test_loader))
-    # # print([x.shape for x in B])
-    # module.eval()
-    # dummy_eeg = torch.randn(1, 4, 2187)
-    # dummy_v   = torch.randn(1, 2, 177147)
-    # dummy_d   = torch.randn(1, 2, 177147)
-    # dummy_b   = torch.randn(1, 2, 177147)
-    # dummy_o   = torch.randn(1, 2, 177147)
-    # torch.onnx.export(
-    #     module,
-    #     (dummy_eeg, dummy_v, dummy_d, dummy_b, dummy_o),  # 这里 tuple 会被正确展开
-    #     "model_high.onnx",
-    #     input_names=["eeg", "m_v", "m_d", "m_b", "m_o"],
-    #     output_names=[
-    #         "y_eeg", "y_v", "y_d", "y_b", "y_o",
-    #         "z_eeg", "z_v", "z_d", "z_b", "z_o"
-    #     ],
-    #     dynamic_axes={
-    #         "eeg": {0: "batch_size"},
-    #         "m_v": {0: "batch_size"},
-    #         "m_d": {0: "batch_size"},
-    #         "m_b": {0: "batch_size"},
-    #         "m_o": {0: "batch_size"}
-    #     },
-    #     opset_version=13
-    # )
-    # ##################################################
-
     trainer.test(module,dataloaders=test_loader)
     print('[[[ FINISH ]]]', datetime.datetime.now())
