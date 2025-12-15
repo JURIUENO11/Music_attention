@@ -7,7 +7,7 @@ Contrastive loss is calculated from this similarity matrix.
 ![image](model.png) 
 
 ## How to run codes
-### For data separation
+### A. For data separation
 1. **Update the data preparation path**
    - Open `codes_attention/attention/preprocessing/transform.py`.
    - Update the `tracklist.csv` path on line 13 to the correct location.
@@ -22,89 +22,52 @@ Contrastive loss is calculated from this similarity matrix.
      nohup sh sequential.sh > log/log.txt &
      ```
    
-### Steps to Execute Experiments
-1. **Update correct path and part for data preprocessing**  
+### B. Steps to Execute Experiments
+1. **Update dataset path and path parsing**
    - Open `codes_attention/attention/datasets/preprocessing_eegmusic_dataset.py`.
-   - Update the correct path of dataet on line 40.
-   - Update the correct index of each part from line 266 to 282.
-     In our example, the eeg dataset is like `codes_attention/dataset/eeg/0/train/3/0/5/eeg.pkl`, which represents subject_id in part[4], subset in part[5], song_id in part[6], task in part[7], and attentionscore in part[8].
+   - Update the dataset root path on line 40.
+   - Update the index mapping for each path component (lines 266–282).
 
-2. **Set training loss**
+   Example path:
+   `codes_attention/dataset/eeg/0/train/3/0/5/eeg.pkl`
+   This corresponds to:
+   - `subject_id`: `part[4]`
+   - `subset`: `part[5]`
+   - `song_id`: `part[6]`
+   - `task`: `part[7]`
+   - `attention_score`: `part[8]`
+
+2. **Choose the loss (`--key`)**
    - Open `codes_attention/attention/sequential.sh`.
-   - Choose the `--key` argument as  from 'all' or 'high_attention'. 'all' represents using all data for training and validation while 'high_attention' means only use attention_score 4 or 5 trails for training and validation (see `codes_attention/attention/contrastive_learning.py`, lines 79–90, 120-130).
+   - Set `--key` to one of:
+     - `all`: use all trials for training/validation
+     - `high_attention`: use only trials with `attention_score` 4 or 5 for training/validation  
+       (see `codes_attention/attention/contrastive_learning.py`, lines 79–90 and 120–130)
 
-3. **Run the experiment**
-   - Execute the script from the `codes_attention/attention/` directory:
+3. **Run experiment**
+   - From `codes_attention/attention/`, execute:
      ```bash
      nohup sh sequential.sh > log/log.txt &
      ```
-   - Output logs are saved to **`log/log.txt`**.
-     
-4. **Monitor the experiment's progress**  
-You can monitor the experiment's progress by checking the log file  
-   - The log file contains real-time outputs.
-     
-4. **Verification of results**  
-The experimental outcomes can be validated by examining the trained model saved under **`codes_attention/attention/runs`**.  
-   - The generated checkpoint files are stored in this directory and can be utilized for testing experiments.  
-   - To customize the checkpoint naming convention, modify the **`training_date`** parameter within the script **`sequential.sh`**.
-   - checkpoint can be load in the **`codes_attention/attention/main_test.py`**, on line
+   - Logs will be written to `codes_attention/attention/log/log.txt`.
 
-#### For 7s experiment (validation only)
-1. **Navigate to the appropriate folder**  
-   - For a **7-second experiment**, go to the **`codes_7s`** directory.
-2. **Specify the Evaluation Method**  
-   The evaluation method can be set in the file  
-   **`codes_7s/predann/modules/_init_.py`**.
-   - Locate **line 2** in **`__init__.py`**:
-```python
-   from .evaluation_mean_7s import EEGContrastiveLearning
-```
-   - To use a different evaluation method, replace **`.evaluation_mean_7s`** with one of the following:
-      - **`.evaluation_max_7s`** 
-      - **`.evaluation_majority_7s`**.
-3. **Load the checkpoint**  
-To resume evaluation, specify the **checkpoint path** in the evaluation script.  
-   - Open **`codes_7s\main_checkpoint.py`**
-   - Update the following lines:
-      - **Line 120**
-         ```python
-            resume_from_checkpoint="checkpoint_example.ckpt"
-         ```
-      - **Line 124**
-         ```python
-            checkpoint_path = "checkpoint_example.ckpt"
-         ```
-   - We provide an example checkpoint (**`checkpoint_example.ckpt`**) for demonstration purposes. It is untrained. Replace it with your trained checkpoint. 
-4. **Run the experiment**
-Execute the experiment script in the terminal using the following command:
-```bash
-   nohup sh sequential_7s.sh > log/log.txt &
-```
-   - Output logs are saved to **`log/log.txt`**.
-5. **Monitor the experiment's progress**
-You can monitor the experiment's progress by checking the log file
-   - The log file contains real-time outputs.
+4. **Monitor progress**
+   - Check the log output: The log file contains real-time outputs.
+   - Trained checkpoints are saved under `codes_attention/attention/runs/`.
+   - To customize the run/checkpoint naming, modify `training_date` in `sequential.sh`.
 
-### Dataset Path Configuration
-To ensure successful execution, configure the dataset paths to match your local environment.
-- **Modify Dataset Path:**
-  Update the dataset path in the following preprocessing scripts:
-   - **`preprocessing_eegmusic_dataset_3s.py`**
-   - **`preprocessing_eegmusic_dataset_7s.py`**.
-   - The **`Preprocessing_EEGMusic`** class loads the dataset using **`_base_dir`**.  
-     In our example, the path is set as:
-      ```python
-         _base_dir = "/workdir/share/NMED/NMED-T/NMED-T_dataset" 
-      ```
-   - Sequential scripts (**`sequential_3s.sh`** and **`sequential_7s.sh`**) are provided for executing experiments.  
-     These scripts include the necessary parameters for their respective experiments.
+5. **Verify results**
+   - You can load a checkpoint in `codes_attention/attention/checkpoint_test.py` (see lines 210 and 214).
+   - From `codes_attention/attention/`, execute:
+     ```bash
+     nohup sh sequential_test.sh > log/log.txt &
+   - `codes_attention/attention/checkpoint_example.ckpt` is provided as an example.
+     
 
 ### Important Notes
 - Ensure that the dataset is preprocessed **before** running experiments.
 - Verify that the checkpoint paths are correctly specified in the evaluation scripts. Incorrect paths will lead to runtime errors.
-- To maintain consistency with the experimental design, the evaluation segment length **must not exceed 8 seconds**.
-- The provided Sequential scripts (**`sequential_3s.sh`** and **`sequential_7s.sh`**) are pre-configured with default parameters.  
+- The provided Sequential scripts (**`main.py`**, **`sequential.sh`**, and **`sequential_test.sh`**) are pre-configured with default parameters.  
   Users may adjust these parameters according to their specific experimental requirements.
 
 ## Code Structure and Files
@@ -141,44 +104,6 @@ main_3s.py                     # Main script for training and evaluating 3-secon
 requirements.txt               # Required Python packages   
 sequential_3s.sh               # Script for running the 3s experiments
 ```
-### Code Structure for 7-Second Evaluation
-```
-predann/
-├── datasets/                      
-│   ├── __init__.py                # Initialization file for the datasets module for 7s experiments
-│   ├── dataset.py                 
-│   └── preprocessing_eegmusic_dataset_7s.py # Preprocessing script for EEG and music data (7-second segments)
-│
-├── models/                        
-│   ├── __init__.py                
-│   ├── model.py                   
-│   └── sample_cnn2d_eeg.py        
-│
-├── modules/                      
-│   ├── __init__.py                # Initialization file for the modules in 7s experiments
-│   ├── clip_loss.py               
-│   ├── evaluation_majority_7s.py  # Evaluation script using majority voting for 7-second segments
-│   ├── evaluation_max_7s.py       # Evaluation script using maximum values for 7-second segments
-│   └── evaluation_mean_7s.py      # Evaluation script using mean values for 7-second segments
-│
-├── utils/                         
-│   ├── __init__.py                
-│   ├── checkpoint.py             
-│   └── yaml_config_hook.py        
-
-config/                        
-└── config.yaml               
-
-log/                          
-└── log.txt                   
-                      
-checkpoint_example.ckpt        # Model checkpoint example
-main_checkpoint_7s.py          # Main script for evaluating 7-second segments
-requirements.txt                     
-sequential_7s.sh               # Script for running the 7s experiments
-```
-Please note that in the file ***main_checkpoint_7s.py***, the checkpoint path must be updated to correspond to the specific location of your checkpoint file. Additionally, the parameter ***evaluation_length*** can be modified to other durations, but it must not exceed 8 seconds (EEG sampling rate 125 Hz). Evaluations for 4s, 5s, 6s, and 7s have also been conducted using these codes by adjusting this parameter accordingly.
-
 
 
 ## License
