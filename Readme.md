@@ -102,7 +102,6 @@ codes_attention/
 │ │ ├── time_helper.py 
 │ │ └── yaml_config_hook.py 
 │ │
-
 │ │
 │ ├── main.py                                                               # Main script for training and validation
 │ ├── checkpoint_test.py                                                    # Script for loading checkpoints and testing
