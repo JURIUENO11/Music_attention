@@ -73,36 +73,50 @@ Contrastive loss is calculated from this similarity matrix.
 ## Code Structure and Files
 ### Code Structure for 3-Second Training and Evaluation
 ```
-predann/
-├── datasets/                      
-│   ├── __init__.py                # Initialization file for the datasets module for 3s experiments
-│   ├── dataset.py                 # Base class for datasets
-│   └── preprocessing_eegmusic_dataset_3s.py # Preprocessing script for EEG and music data (3-second segments)
-│
-├── models/                        
-│   ├── __init__.py                # Initialization file for the models module
-│   ├── model.py                   # Base class for model definitions
-│   └── sample_cnn2d_eeg.py        # Implementation of a 2D CNN model for EEG data
-│
-├── modules/                       
-│   ├── __init__.py                # Initialization file for the modules in 3s experiments
-│   ├── clip_loss.py               # Implementation of the Clip Loss function
-│   └── contrastive_learning_3s.py # Script for contrastive learning using 3-second segments
-│
-├── utils/                         
-│   ├── __init__.py                # Initialization file for the utilities module
-│   ├── checkpoint.py              # Utility script for saving and loading model checkpoints
-│   └── yaml_config_hook.py        # Utility script for loading YAML configuration files
+codes_attention/
+├── attention/
+│ ├── datasets/ # Dataset definitions and data loading
+│ │ ├── init.py
+│ │ ├── dataset.py # Base dataset utilities
+│ │ └── preprocessing_eegmusic_dataset.py
+│ │ # EEG-Music dataset with preprocessing logic
+│ │
+│ ├── models/ # Model architectures
+│ │ ├── init.py
+│ │ ├── model.py # Model wrapper / high-level model definition
+│ │ └── sample_cnn2d_eeg.py # 2D CNN encoder for EEG signals
+│ │
+│ ├── modules/ # Training modules and loss functions
+│ │ ├── init.py
+│ │ ├── clip_loss.py # CLIP-style contrastive loss
+│ │ └── contrastive_learning.py # EEG contrastive learning module
+│ │
+│ ├── preprocessing/ # Data preprocessing scripts
+│ │ ├── init.py
+│ │ └── transform.py # Raw data preprocessing and separation
+│ │
+│ ├── utils/ # Utility functions
+│ │ ├── init.py
+│ │ ├── checkpoint.py # Checkpoint helper functions
+│ │ ├── file_helpers.py # File I/O helpers
+│ │ ├── logger.py # Logging utilities
+│ │ ├── time_helper.py # Time and date utilities
+│ │ └── yaml_config_hook.py # YAML configuration loader
+│ │
 
-config/                        
-└── config.yaml                # Main configuration file for the project
-
-log/                           
-└── log.txt                    # Log file for recording training and evaluation progress
-
-main_3s.py                     # Main script for training and evaluating 3-second segments
-requirements.txt               # Required Python packages   
-sequential_3s.sh               # Script for running the 3s experiments
+│ │
+│ ├── main.py # Main entry point (train / test / preprocess)
+│ ├── checkpoint_test.py # Script for loading checkpoints and testing
+│ ├── sequential.sh # Shell script for running training experiments
+│ ├── sequential_test.sh # Shell script for running test experiments
+│ ├── checkpoint_example.ckpt # Example pretrained checkpoint
+│
+├── config/ # Global configuration files
+│ └── config.yaml # Default configuration
+│
+├── tracklist.csv # Track list used for data preprocessing
+├── requirements.txt # Python dependencies
+└── LICENSE # License information
 ```
 
 
