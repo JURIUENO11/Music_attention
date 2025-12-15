@@ -69,7 +69,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
     pl.seed_everything(args.seed, workers=True)
 
-
+    if args.mode == "preprocess":
+        result = preprocess()
+        file_writer(f"{config['dataset_dir']}/preprocess_result.txt", result)
+        exit()
+        
     train_transform = {}
     if args.openmiir_augmentation == "gaussiannoise":
         train_transform = [
@@ -229,5 +233,6 @@ if __name__ == "__main__":
     print('[[[ START ]]]', datetime.datetime.now())
     trainer.fit(module, train_dataloaders=train_loader, val_dataloaders=valid_loader)
     print('[[[ FINISH ]]]', datetime.datetime.now())
+
 
 
