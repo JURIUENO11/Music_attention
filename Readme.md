@@ -8,10 +8,10 @@ Contrastive loss is calculated from this similarity matrix.
 
 ## How to run codes
 ### For data saperation
-1. **Navigate to the **`codes_attention/attention/preprocessing/transform.py`** file**  
-   - Change the correct path of the **`tracklist.csv`** in line 13.
-2. **Navigate to the **`codes_attention/attention/sequential.sh`** file** 
-   - Add the parameter of *`mode`* as *`preprocess`*, as shown in **`codes_attention/attention/main.py`** line 72-75.
+1. **Open `codes_attention/attention/preprocessing/transform.py`**
+   - Update the `tracklist.csv` path on line 13 to the correct location.
+2. **Open `codes_attention/attention/sequential.sh`**
+   - Add the `--mode preprocess` argument (see `codes_attention/attention/main.py`, lines 72–75).
 3. **Run the experiment**  
 Execute the experiment script in the terminal using the following command:
 ```bash
