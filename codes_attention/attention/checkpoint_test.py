@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="PredANN")
 
-    config = yaml_config_hook("/workdir/codes_attention/config/config.yaml")
+    config = yaml_config_hook("/codes_attention/config/config.yaml")
     for k, v in config.items():
         parser.add_argument(f"--{k}", default=v, type=type(v))
     parser.add_argument('--mode', type=str)
@@ -207,12 +207,13 @@ if __name__ == "__main__":
         log_every_n_steps=1,
         check_val_every_n_epoch=1,
         accelerator=args.accelerator,
-        resume_from_checkpoint='/workdir/codes_attention/attention/runs/test/nmed-CL-preprocessing_eegmusic/version_8/checkpoints/last.ckpt',
+        resume_from_checkpoint='/checkpoint_path',
         accumulate_grad_batches=6
     )
     print('[[[ START ]]]', datetime.datetime.now())
-    checkpoint_path = "/workdir/codes_attention/attention/runs/test/nmed-CL-preprocessing_eegmusic/version_8/checkpoints/last.ckpt"
+    checkpoint_path = "/checkpoint_path"
     checkpoint = torch.load(checkpoint_path)
     module.load_state_dict(checkpoint['state_dict'])
     trainer.test(module,dataloaders=test_loader)
     print('[[[ FINISH ]]]', datetime.datetime.now())
+
