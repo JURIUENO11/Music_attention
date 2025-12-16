@@ -64,9 +64,9 @@ Contrastive loss is calculated from this similarity matrix.
    - `codes_attention/attention/checkpoint_example.ckpt` is provided as an example.
      
 ### Evaluation outputs (`evaluation_all` / `evaluation_attention`)
-In `contrastive_learning.py`, evaluation results for **validation** and **test** are saved in:
-- `evaluation_all`: evaluation on **all data**
-- `evaluation_attention`: evaluation on **high-attention data**
+In **`contrastive_learning.py`**, evaluation results for **validation** and **test** are saved in:
+- **`evaluation_all`**: evaluation on **all data**
+- **`evaluation_attention`**: evaluation on **high-attention data**
 Both variables share the same structure: a list/tuple of **9 elements**.
 
 ### Structure
@@ -84,7 +84,7 @@ Both variables share the same structure: a list/tuple of **9 elements**.
 | 8 | Global diff (uncorrectly matched group) | 1 |
 
 ### Print example
-In 
+In **`contrastive_learning .py`**, function def **`validation_step`** and **`def test_step`**.
 ```python
 print("Acc_4*4", evaluation_all[0])
 print("Acc_4*1", evaluation_all[3])
