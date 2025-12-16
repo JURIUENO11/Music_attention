@@ -17,34 +17,6 @@ from pathlib import Path
 import torch
 
 
-def preprocess():
-    input = config['raw_data_dir']
-    output_base = f"{config['dataset_dir']}/eeg/"
-    preprocess_logger = get_logger('preprocess')
-
-    input_path = Path(f"{input}/eeg/")
-    eeg_input_list = list(input_path.glob("*.csv"))
-    if not eeg_input_list:
-        preprocess_logger.error("Input eeg file does not exist.")
-        return
-
-    subject_num = 0
-    subject_list = []
-    for eeg_input in eeg_input_list:
-        subject_list.append(
-            {"subject_id": subject_num, "subject_name": eeg_input.stem})
-        experiment_result = Path(f"{input}/experiment/{eeg_input.stem}.json")
-        if not experiment_result.exists():
-            preprocess_logger.error("Experiment result file does not exist.")
-            return
-
-        eeg_data_processing(eeg_input, experiment_result,
-                            subject_num, output_base)
-        subject_num += 1
-
-    return subject_list
-
-
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="PredANN")
@@ -63,12 +35,6 @@ if __name__ == "__main__":
     parser.add_argument('--test_stride', type=int)
     args = parser.parse_args()
     pl.seed_everything(args.seed, workers=True)
-
-    if args.mode == "preprocess":
-        result = preprocess()
-        file_writer(f"{config['dataset_dir']}/preprocess_result.txt", result)
-
-        exit()
 
     train_transform = {}
     if args.openmiir_augmentation == "gaussiannoise":
@@ -216,4 +182,5 @@ if __name__ == "__main__":
     module.load_state_dict(checkpoint['state_dict'])
     trainer.test(module,dataloaders=test_loader)
     print('[[[ FINISH ]]]', datetime.datetime.now())
+
 
