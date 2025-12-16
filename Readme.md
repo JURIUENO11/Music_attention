@@ -79,22 +79,22 @@ Both variables share the same structure: a list/tuple of **9 elements**.
 | 3 | Acc vector | 4×1 |
 | 4 | Diff vector (correctly matched group) | 4×1 |
 | 5 | Diff vector (uncorrectly matched group) | 4×1 |
-| 6 | Global acc | 1×1 |
-| 7 | Global diff (correctly matched group) | 1×1 |
-| 8 | Global diff (uncorrectly matched group) | 1×1 |
+| 6 | Global acc | 1 |
+| 7 | Global diff (correctly matched group) | 1 |
+| 8 | Global diff (uncorrectly matched group) | 1 |
 
 ### Print example
 In 
 ```python
 print("Acc_4*4", evaluation_all[0])
 print("Acc_4*1", evaluation_all[3])
-print("Acc_1*1", evaluation_all[6])
+print("Acc_*1", evaluation_all[6])
 print("correct_4*4", evaluation_all[1])
 print("uncorrect_4*4", evaluation_all[2])
 print("correct_4*1", evaluation_all[4])
 print("uncorrect_4*1", evaluation_all[5])
-print("correct*1", evaluation_all[7])
-print("uncorrect*1", evaluation_all[8])
+print("correct_*1", evaluation_all[7])
+print("uncorrect_*1", evaluation_all[8])
 ```
 
 ### Important Notes
