@@ -63,9 +63,39 @@ Contrastive loss is calculated from this similarity matrix.
      nohup sh sequential_test.sh > log/log.txt &
    - `codes_attention/attention/checkpoint_example.ckpt` is provided as an example.
      
+### Evaluation outputs (`evaluation_all` / `evaluation_attention`)
+In `contrastive_learning.py`, evaluation results for **validation** and **test** are saved in:
+- `evaluation_all`: evaluation on **all data**
+- `evaluation_attention`: evaluation on **high-attention data**
+Both variables share the same structure: a list/tuple of **9 elements**.
+| Index | Meaning | Shape |
+|------:|--------|-------|
+| 0 | Acc matirx | 4×4 |
+| 1 | Diff matrix (correctly matched group) | 4×4 |
+| 2 | Diff matrix (uncorrectly matched group) | 4×4 |
+| 3 | Acc vector | 4×1 |
+| 4 | Diff vector (correctly matched group) | 4×1 |
+| 5 | Diff vector (uncorrectly matched group) | 4×1 |
+| 6 | Global acc | 1×1 |
+| 7 | Global diff (correctly matched group) | 1×1 |
+| 8 | Global diff (uncorrectly matched group) | 1×1 |
+
+### Print example
+In 
+```python
+print("Acc_4*4", evaluation_all[0])
+print("Acc_4*1", evaluation_all[3])
+print("Acc_1*1", evaluation_all[6])
+print("correct_4*4", evaluation_all[1])
+print("uncorrect_4*4", evaluation_all[2])
+print("correct_4*1", evaluation_all[4])
+print("uncorrect_4*1", evaluation_all[5])
+print("correct*1", evaluation_all[7])
+print("uncorrect*1", evaluation_all[8])
+```
 
 ### Important Notes
-- Ensure that the dataset is preprocessed **before** running experiments.
+- Ensure that the dataset is preprocessed **before** running experiments. 
 - Verify that the checkpoint paths are correctly specified in the evaluation scripts. Incorrect paths will lead to runtime errors.
 - The **`config.yaml`** path may differ after download. Make sure to set the correct path in **`main.py`** (line 27, line 57) and **`checkpoint_test.py`** (line 24).
 - The provided Sequential scripts (**`main.py`**, **`sequential.sh`**, and **`sequential_test.sh`**) are pre-configured with default parameters.  
