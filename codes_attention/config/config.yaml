@@ -2,7 +2,7 @@
 gpus: 1
 accelerator: "dp" 
 workers: 8 
-dataset_dir: "/workdir/dataset"
+dataset_dir: "/codes_attention/dataset"
 
 # train options
 seed: 42
