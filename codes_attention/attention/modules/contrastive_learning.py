@@ -169,28 +169,6 @@ class EEGContrastiveLearning(LightningModule):
         
         evaluation_all = self.compute_evaluation_matrix(self.matrix_list_all)
         evaluation_attention = self.compute_evaluation_matrix(self.matrix_list_attention)
-
-        print('Overall')
-        print('大小関係', evaluation_all[0])
-        print('大小4*1', evaluation_all[3])
-        print('大小*1', evaluation_all[6])
-        print('差分posグループ', evaluation_all[1])
-        print('差分negグループ', evaluation_all[2])
-        print('pos_4*1', evaluation_all[4])
-        print('neg_4*1', evaluation_all[5])
-        print('pos*1', evaluation_all[7])
-        print('pos*1', evaluation_all[8])
-        
-        print('Attention')
-        print('大小関係', evaluation_attention[0])
-        print('大小4*1', evaluation_attention[3])
-        print('大小*1', evaluation_attention[6])
-        print('差分posグループ', evaluation_attention[1])
-        print('差分negグループ', evaluation_attention[2])
-        print('pos_4*1', evaluation_attention[4])
-        print('neg_4*1', evaluation_attention[5])
-        print('pos*1', evaluation_attention[7])
-        print('neg*1', evaluation_attention[8])
         
         return loss
 
@@ -348,28 +326,6 @@ class EEGContrastiveLearning(LightningModule):
         evaluation_all = self.compute_evaluation_matrix(self.matrix_list_all)
         evaluation_attention = self.compute_evaluation_matrix(self.matrix_list_attention)
 
-        print('Overall')
-        print('大小関係', evaluation_all[0])
-        print('大小4*1', evaluation_all[3])
-        print('大小*1', evaluation_all[6])
-        print('差分posグループ', evaluation_all[1])
-        print('差分negグループ', evaluation_all[2])
-        print('pos_4*1', evaluation_all[4])
-        print('neg_4*1', evaluation_all[5])
-        print('pos*1', evaluation_all[7])
-        print('pos*1', evaluation_all[8])
-        
-        print('Attention')
-        print('大小関係', evaluation_attention[0])
-        print('大小4*1', evaluation_attention[3])
-        print('大小*1', evaluation_attention[6])
-        print('差分posグループ', evaluation_attention[1])
-        print('差分negグループ', evaluation_attention[2])
-        print('pos_4*1', evaluation_attention[4])
-        print('neg_4*1', evaluation_attention[5])
-        print('pos*1', evaluation_attention[7])
-        print('neg*1', evaluation_attention[8])
-
     def on_test_end(self):
         return super().on_test_end()
 
@@ -461,6 +417,7 @@ class EEGContrastiveLearning(LightningModule):
         slice_audio = audio[:, :, audio_start:audio_end]
 
         return slice_audio
+
 
 
 
