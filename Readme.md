@@ -67,6 +67,7 @@ Contrastive loss is calculated from this similarity matrix.
 ### Important Notes
 - Ensure that the dataset is preprocessed **before** running experiments.
 - Verify that the checkpoint paths are correctly specified in the evaluation scripts. Incorrect paths will lead to runtime errors.
+- The **`config.yaml`** path may differ after download. Make sure to set the correct path in **`main.py`** (line 27, line 57) and **`checkpoint_test.py`** (line 24).
 - The provided Sequential scripts (**`main.py`**, **`sequential.sh`**, and **`sequential_test.sh`**) are pre-configured with default parameters.  
   Users may adjust these parameters according to their specific experimental requirements.
 
