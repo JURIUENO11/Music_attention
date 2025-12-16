@@ -68,6 +68,9 @@ In `contrastive_learning.py`, evaluation results for **validation** and **test**
 - `evaluation_all`: evaluation on **all data**
 - `evaluation_attention`: evaluation on **high-attention data**
 Both variables share the same structure: a list/tuple of **9 elements**.
+
+### Structure
+
 | Index | Meaning | Shape |
 |------:|--------|-------|
 | 0 | Acc matirx | 4×4 |
