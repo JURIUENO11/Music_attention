@@ -24,7 +24,7 @@ class RandomWindowUpdateCallback(pl.Callback):
         self.dataset.update_random_window()
 
 def preprocess():
-    input = config['/workdir/codes_attention/config/config.yaml']
+    input = config['/codes_attention/config/config.yaml']
     output_base = f"{config['dataset_dir']}/eeg/"
     preprocess_logger = get_logger('preprocess')
 
@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="PredANN")
 
-    config = yaml_config_hook("/workdir/codes_attention/config/config.yaml")
+    config = yaml_config_hook("/codes_attention/config/config.yaml")
     for k, v in config.items():
         parser.add_argument(f"--{k}", default=v, type=type(v))
     #parser.add_argument('--mode', type=str)
@@ -233,6 +233,7 @@ if __name__ == "__main__":
     print('[[[ START ]]]', datetime.datetime.now())
     trainer.fit(module, train_dataloaders=train_loader, val_dataloaders=valid_loader)
     print('[[[ FINISH ]]]', datetime.datetime.now())
+
 
 
 
