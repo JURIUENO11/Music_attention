@@ -42,7 +42,7 @@ def load_csv(file_path: str) -> list:
         logger(f"The file doesn't be found.: {file_path}")
         return []
     except Exception as e:
-        logger(f"エラーが発生しました: {e}")
+        logger(f"error: {e}")
         return []
 
 
