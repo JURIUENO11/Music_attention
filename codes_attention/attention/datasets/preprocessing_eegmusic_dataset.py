@@ -37,7 +37,7 @@ def get_test_window(df,eeg_length,window_size,stride):
     return newdf
 
 class Preprocessing_EEGMusic_dataset(Dataset):
-    _base_dir = "/workdir/dataset"
+    _base_dir = "dataset_path"
     logger = get_logger("dataloader_debug")
 
     def __init__(
