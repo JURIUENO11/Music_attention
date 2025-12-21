@@ -279,7 +279,6 @@ class CLIP_Loss(nn.Module):
 
             for i in range(len(pos_3)):  
                 matrix_list[3].append([o_v_3[i].item(), o_d_3[i].item(), o_b_3[i].item(), pos_3[i].item()])
-            #matrix_list.append([o_v_3.mean(),o_d_3.mean(),o_b_3.mean(),positive_samples_3.mean()])
             negative_e_m_31 = sim_e_m_3[:, 3 *
                                         filtered_size3:][mask3].reshape(filtered_size3, filtered_size3-1)
             negative_e_m_32 = sim_e_m_3[:, :3*filtered_size3]
