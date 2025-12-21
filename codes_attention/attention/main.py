@@ -57,7 +57,7 @@ if __name__ == "__main__":
     config = yaml_config_hook("/codes_attention/config/config.yaml")
     for k, v in config.items():
         parser.add_argument(f"--{k}", default=v, type=type(v))
-    #parser.add_argument('--mode', type=str)
+    parser.add_argument('--mode', type=str)
     parser.add_argument('--start_position', type=int)
     parser.add_argument('--evaluation_length', type=int)
     parser.add_argument('--attention_values', type=int, nargs='+')
@@ -233,6 +233,7 @@ if __name__ == "__main__":
     print('[[[ START ]]]', datetime.datetime.now())
     trainer.fit(module, train_dataloaders=train_loader, val_dataloaders=valid_loader)
     print('[[[ FINISH ]]]', datetime.datetime.now())
+
 
 
 
