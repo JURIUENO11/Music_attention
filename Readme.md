@@ -150,6 +150,8 @@ codes_attention/
 ├── tracklist.csv                                                           # Track list of the dataset used for data preprocessing
 ├── requirements.txt                                                        # Python dependencies
 └── LICENSE                                                                 # License information
+previous_paper_model_checkpoints.7z                                         # The model checkpoints from the previous paper in the Previous Paper Comparison section
+proposed_model_checkpoints.7z                                               # The checkpoints of our proposed model
 ```
 
 
