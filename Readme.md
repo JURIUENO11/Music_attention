@@ -104,6 +104,8 @@ print("uncorrect_*1", evaluation_all[8])
 - The **`config.yaml`** path may differ after download. Make sure to set the correct path in **`main.py`** (line 27, line 57) and **`checkpoint_test.py`** (line 24).
 - The provided Sequential scripts (**`main.py`**, **`sequential.sh`**, and **`sequential_test.sh`**) are pre-configured with default parameters.  
   Users may adjust these parameters according to their specific experimental requirements.
+- To run the model from the previous study, use **`TensorFlow`** instead of **`PyTorch`**.
+- In addition, comment out the padding step in **`datasets/preprocessing_eegmusic_dataset.py`**, since the previous study's model does not use padding and expects a different input length.
 
 ## Code Structure and Files
 ### Code Structure for 3-Second Training and Evaluation
@@ -143,6 +145,8 @@ codes_attention/
 │ ├── sequential.sh                                                         # Shell script for running training and validation experiments
 │ ├── sequential_test.sh                                                    # Shell script for running test experiments
 │ ├── checkpoint_example.ckpt                                               # Example checkpoint
+| ├── previous_study_training.py                                            # The training code of previous study's model
+| ├── previous_study_test.py                                                # The testing code of previous study's model
 │
 ├── config/                                                                 # Global configuration files
 │ └── config.yaml 
