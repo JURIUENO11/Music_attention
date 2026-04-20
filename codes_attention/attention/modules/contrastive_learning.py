@@ -207,7 +207,7 @@ class EEGContrastiveLearning(LightningModule):
         global_pos_cnt = 0
         global_neg_sum = 0
         global_neg_cnt = 0
-
+        # mcnemar_results = []
         for lists in all_lists:
             for task_idx, task_list in enumerate(lists):
                 if len(task_list) == 0:
@@ -258,7 +258,16 @@ class EEGContrastiveLearning(LightningModule):
                     neg_cnt_41[task_idx, 0] += len(neg41)
                     global_neg_sum += neg41.sum().item()
                     global_neg_cnt += len(neg41)
-
+    
+            # ########### Mcnemar #############
+            # flags = (pos_values > max_values).int()
+            # mcnemar_results.append(flags)
+            # flattened = []
+            # for t in mcnemar_results:
+            #     flattened.extend(t.cpu().numpy().tolist())
+            # df = pd.DataFrame(flattened)
+            # df.to_excel("Mcnemar_results.xlsx", index=False, header=False)
+            # ######################################################
 
         ratio_matrix = ratio_num_44/ratio_den_44  
         pos_diff     = pos_sum_44/pos_cnt_44    
