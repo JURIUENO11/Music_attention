@@ -336,6 +336,17 @@ class EEGContrastiveLearning(LightningModule):
         evaluation_attention = self.compute_evaluation_matrix(self.matrix_list_attention)
 
     def on_test_end(self):
+        ###### bootstrap #####
+        # df_all = pd.DataFrame({
+        #     "y_true": self.y_true_all,
+        #     "y_pred": self.y_pred_all
+        # })
+        # df_all.to_excel(f"bootstrap_results_all.xlsx", index=False, header=False)
+        # df_high = pd.DataFrame({
+        #     "y_true": self.y_true_high,
+        #     "y_pred": self.y_pred_high
+        # })
+        # df_high.to_excel(f"bootstrap_results_attention.xlsx", index=False, header=False)
         return super().on_test_end()
 
 
